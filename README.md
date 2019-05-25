@@ -1,1 +1,2 @@
-# yaka
+# Yaka
+Yet Another Kotlin Assertions
