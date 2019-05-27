@@ -1,9 +1,8 @@
-package lb.yaka.assertions
+import lb.yaka.assertions.Yaka
+import org.junit.jupiter.api.Test
 
-import kotlin.test.Test
 
-
-class Test1 {
+class Test2 {
 
     @Test
     fun test1() {
@@ -11,12 +10,13 @@ class Test1 {
 
     @Test
     fun test2() {
-         throw RuntimeException("Hello!")
+        throw RuntimeException("Hello!")
     }
 
     @Test
     fun test3() {
         Yaka.fail("Fail from Yaka")
     }
+
 
 }

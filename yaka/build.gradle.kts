@@ -31,9 +31,18 @@ kotlin {
         val jvmTest by getting {
             kotlin.srcDirs("src/jvm-test")
             dependencies {
-                implementation(kotlin("test-junit"))
+                implementation(kotlin("test-junit5"))
+                implementation("org.junit.jupiter:junit-jupiter:5.4.2")
             }
         }
     }
 
+}
+
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
