@@ -3,7 +3,7 @@ package lb.yaka.assertions
 import kotlin.test.Test
 
 
-class Test1 {
+abstract class TestA {
 
     @Test
     fun test1() {

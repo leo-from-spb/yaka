@@ -1,20 +1,21 @@
-import lb.yaka.assertions.Yaka
+package lb.yaka.assertions
+
 import org.junit.jupiter.api.Test
 
 
-class Test2 {
+class TestB : TestA() {
 
     @Test
-    fun test1() {
+    fun test4() {
     }
 
     @Test
-    fun test2() {
+    fun test5() {
         throw RuntimeException("Hello!")
     }
 
     @Test
-    fun test3() {
+    fun test6() {
         Yaka.fail("Fail from Yaka")
     }
 
