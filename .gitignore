@@ -22,7 +22,6 @@ build
 */.gradleTemp
 
 # Gradle wrapper
-gradle
 gradlew*
 
 # Compiled class file
