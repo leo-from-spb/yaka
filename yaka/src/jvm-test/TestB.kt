@@ -1,5 +1,6 @@
 package lb.yaka.assertions
 
+import lb.yaka.Yaka
 import org.junit.jupiter.api.Test
 
 

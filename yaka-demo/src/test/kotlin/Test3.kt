@@ -1,4 +1,6 @@
-import lb.yaka.assertions.Yaka
+package lb.yaka.demo
+
+import lb.yaka.Yaka
 import org.junit.Test
 
 class Test3 {

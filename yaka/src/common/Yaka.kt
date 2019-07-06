@@ -1,4 +1,4 @@
-package lb.yaka.assertions
+package lb.yaka
 
 /**
  * Static object that can be customized for project-specific exceptions.
@@ -21,9 +21,9 @@ object Yaka {
         throw AssertionError(message)
     }
 
+    @Suppress("unused_parameter")
     private fun kotlinComparisonFail(message: String, actual: String, expect: String): Nothing {
-        val m = "$message\nActual: $actual\nExpect: $expect"
-        kotlinBasicFail(m)
+        kotlinBasicFail(message)
     }
 
 }

@@ -7,7 +7,7 @@ sealed class Result {
 
     abstract val ok: Boolean
 
-    abstract val message: String
+    abstract val problem: String
 
 }
 
@@ -19,13 +19,17 @@ object Ok : Result() {
 
     override val ok: Boolean = true
 
-    override val message: String = "OK"
+    override val problem: String = "OK"
 
 }
 
 
-class Fail(override val message: String) : Result() {
+sealed class Fail(override val problem: String) : Result() {
 
     override val ok: Boolean get() = false
 
 }
+
+class SimpleFail(problem: String) : Fail(problem)
+
+object NullFail : Fail("The actual value is null")
