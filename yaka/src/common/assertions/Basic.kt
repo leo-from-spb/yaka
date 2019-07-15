@@ -33,12 +33,14 @@ infix fun<X: Any> Subject<X>.mustBe(condition: Condition<X>): Subject<X> {
 
 
 object Null: Condition<Any> {
-    override fun describe() = "null"
+    override fun describe() = "Null"
     override fun check(subject: Subject<Any>) =
         when (subject) {
             is NullSubject -> Ok
             is MSubject -> SimpleFail("Actual value is not null (${subject.x}) but must be null.")
         }
+    override val nullable: Boolean
+        get() = true
 }
 
 object NotNull: Condition<Any> {
