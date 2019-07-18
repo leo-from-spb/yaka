@@ -2,10 +2,10 @@
 
 package lb.yaka.assertions
 
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 
-abstract class BasicPositive {
+class BasicPositive {
 
 
     @Test
