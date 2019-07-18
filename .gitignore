@@ -5,11 +5,7 @@
 .idea/shelf
 .idea/ant.xml
 .idea/dataSources.local.xml
-.idea/libraries
-.idea/modules
-.idea/modules.xml
-.idea/compiler.xml
-.idea/artifacts
+.idea/$*
 out
 
 # Gradle stuff
