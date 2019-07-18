@@ -2,11 +2,11 @@
 
 package lb.yaka.assertions
 
+import lb.yaka.UnitTestCase
 import org.junit.jupiter.api.Test
 
 
-class BasicPositive {
-
+class BasicPositiveTest : UnitTestCase() {
 
     @Test
     fun mustBe_Null() {
