@@ -27,4 +27,10 @@ object Yaka {
         kotlinBasicFail(m)
     }
 
+
+    internal fun resetSettings() {
+        BASIC_FAIL_FUNCTION = Yaka::kotlinBasicFail
+        COMPARISON_FAIL_FUNCTION = Yaka::kotlinComparisonFail
+    }
+
 }
