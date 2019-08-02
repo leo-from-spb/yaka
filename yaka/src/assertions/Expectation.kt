@@ -39,6 +39,11 @@ interface ComparisonExpectation<Y: Any> : MandatoryExpectation<Y> {
 class EqualityExpectation<Y: Any>(val expect: Y) : ComparisonExpectation<Y> {
     override fun describe() = expect.describe(false)
     override fun text() = expect.describe(true)
-    override fun check(subject: ActualSubject<Y>) = if (subject.x == expect) Ok else SimpleFail("Comparison failed")
+
+    override fun check(subject: ActualSubject<Y>) =
+        if (subject.x == expect) Ok
+        else ComparisonFail("Comparison failed",
+            expect = expect.describe(true),
+            actual = subject.x.describe(true))
 }
 

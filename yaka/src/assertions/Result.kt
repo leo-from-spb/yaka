@@ -32,4 +32,6 @@ sealed class Fail(override val problem: String) : Result() {
 
 class SimpleFail(problem: String) : Fail(problem)
 
+class ComparisonFail(problem: String, val expect: String, val actual: String) : Fail(problem)
+
 object NullFail : Fail("The actual value is null")
