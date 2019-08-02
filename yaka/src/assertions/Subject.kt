@@ -32,7 +32,7 @@ sealed class Subject<out X: Any>(
 }
 
 
-class ActualSubject<out X:Any> (override val x: X, name: String) : Subject<X>(name) {
+open class ActualSubject<out X:Any> (override val x: X, name: String) : Subject<X>(name) {
 
     constructor (x: X) : this(x, "Actual value")
 
@@ -77,7 +77,7 @@ class NullSubject<out X: Any> : Subject<X> {
 const val defaultName = "Actual value"
 
 
-inline fun <reified X: Any> subjectOf(x: X, name: String = defaultName): ActualSubject<X> =
+inline fun </*reified*/ X: Any> subjectOf(x: X, name: String = defaultName): ActualSubject<X> =
     ActualSubject(x, name)
 
 inline fun <reified X: Any> subjectOf(x: X?, name: String = defaultName): Subject<X> =
