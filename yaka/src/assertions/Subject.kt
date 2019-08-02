@@ -6,86 +6,124 @@ import lb.yaka.util.describe
 /**
  * Subject of investigation.
  */
-sealed class Subject<out X: Any> {
+sealed class Subject<out X: Any>(
+
+    val name: String
+
+) {
 
     abstract val x: X?
 
-    abstract val m: MSubject<X>?
+    abstract val actual: ActualSubject<X>?
 
     abstract fun describe(): String
 
     abstract fun text(): String
 
+    abstract infix fun aka(name: String): Subject<X>
+
     override fun toString(): String = describe()
-    
+
+    // basic assertions
+
+    abstract infix fun mustBe(_notNull_: NotNullExpectation): ActualSubject<X>
+    abstract infix fun mustBe(_null_: Nothing?)
+
 }
 
 
-class MSubject<out X:Any> (override val x: X) : Subject<X>() {
+class ActualSubject<out X:Any> (override val x: X, name: String) : Subject<X>(name) {
 
-    override val m: MSubject<X>
+    constructor (x: X) : this(x, "Actual value")
+
+    override val actual: ActualSubject<X>
         get() = this
 
     open override fun describe() = x.describe(full = false)
 
     open override fun text() = x.describe(full = true)
+
+    override fun aka(name: String): ActualSubject<X> = ActualSubject(x, name)
+
+    override fun mustBe(_notNull_: NotNullExpectation): ActualSubject<X> = this
+    override fun mustBe(_null_: Nothing?) = Yaka.fail("$name must be null")
 }
 
 
-class NullSubject<out X: Any> : Subject<X>() {
+class NullSubject<out X: Any> : Subject<X> {
+
+    constructor() : super("Actual value")
+    constructor(name: String) : super(name)
 
     override val x: X?
         get() = null
 
-    override val m: MSubject<X>?
+    override val actual: ActualSubject<X>?
         get() = null
 
     override fun describe() = "null"
     override fun text() = "null"
 
+    override fun aka(name: String): NullSubject<X> = NullSubject(name)
+
+    override fun mustBe(_notNull_: NotNullExpectation): Nothing = Yaka.fail("$name must be not null")
+    override fun mustBe(_null_: Nothing?) {}
+
 }
 
 
-inline fun <reified X: Any> subjectOf(x: X): MSubject<X> = MSubject(x)
-
-inline fun <reified X: Any> subjectOf(x: X?): Subject<X> =
-    if (x != null) MSubject(x) else NullSubject()
 
 
-infix fun <Y: Any, X: Y> Subject<X>.verify(condition: Condition<Y>): Subject<X> =
+const val defaultName = "Actual value"
+
+
+inline fun <reified X: Any> subjectOf(x: X, name: String = defaultName): ActualSubject<X> =
+    ActualSubject(x, name)
+
+inline fun <reified X: Any> subjectOf(x: X?, name: String = defaultName): Subject<X> =
+    if (x != null) ActualSubject(x, name) else NullSubject(name)
+
+inline infix fun <reified X: Any> X.aka(name: String): ActualSubject<X> =
+    ActualSubject(this, name)
+
+inline infix fun <reified X: Any> X?.aka(name: String): Subject<X> =
+    subjectOf<X>(this, name)
+
+
+infix fun <Y: Any, X: Y> Subject<X>.verify(expectation: Expectation<Y>): Subject<X> =
     when (this) {
-        is MSubject -> this.verify(condition)
-        is NullSubject -> if (condition.nullable) this else this.failNull(condition)
+        is ActualSubject -> this.verify(expectation)
+        is NullSubject -> if (expectation.nullable) this else this.failNull(expectation)
     }
 
-infix fun <Y: Any, X: Y> MSubject<X>.verify(condition: Condition<Y>): MSubject<X> {
-    val result = condition.check(this)
+infix fun <Y: Any, X: Y> ActualSubject<X>.verify(expectation: Expectation<Y>): ActualSubject<X> {
+    val result = expectation.check(this)
     if (result.ok) return this
-    failNormal(condition, result)
+    failNormal(expectation, result)
 }
 
 
 private const val tab = '\t'
 
 
-private fun Subject<*>.failNormal(condition: Condition<*>, result: Result): Nothing {
+private fun Subject<*>.failNormal(expectation: Expectation<*>, result: Result): Nothing {
     val problem = result.problem
     val actualDescription = this.describe()
-    val expectDescription = condition.describe()
+    val expectDescription = expectation.describe()
     val message = """|$problem
                      |Actual:$tab$actualDescription
                      |Expect:$tab$expectDescription
                   """.trimMargin()
-    if (condition is ComparisonCondition) {
-        Yaka.fail(message, this.text(), condition.text())
+    if (expectation is ComparisonExpectation) {
+        Yaka.fail(message, this.text(), expectation.text())
     } else {
         Yaka.fail(message)
     }
 }
 
-private fun Subject<*>.failNull(condition: Condition<*>): Nothing {
+private fun Subject<*>.failNull(expectation: Expectation<*>): Nothing {
     val actualDescription = this.describe()
-    val expectDescription = condition.describe()
+    val expectDescription = expectation.describe()
     val message = """|value is null
                      |Actual:$tab$actualDescription
                      |Expect:$tab$expectDescription

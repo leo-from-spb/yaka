@@ -25,11 +25,11 @@ infix fun Double? .mustBe(expect: Long): Subject<Double> = subjectOf(this).mustB
 
 
 infix fun<X: Number> Subject<X>.mustBe(expect: Number): Subject<X> =
-    this verify NumberEqualCondition(expect)
+    this verify NumberEqualExpectation(expect)
 
-class NumberEqualCondition(private val expect: Number) : MCondition<Number> {
+class NumberEqualExpectation(private val expect: Number) : MandatoryExpectation<Number> {
     override fun describe() = expect.describe(false)
-    override fun check(subject: MSubject<Number>): Result {
+    override fun check(subject: ActualSubject<Number>): Result {
         val sign = subject.x.toLong().compareTo(this.expect.toLong())
         return when {
             sign < 0 -> SimpleFail("Number is less than ${this.expect}")
@@ -47,12 +47,12 @@ inline infix fun<reified X: Number> X?.mustBeIn(range: IntRange): Subject<X> =
     subjectOf(this).mustBeIn(range)
 
 infix fun<X: Number> Subject<X>.mustBeIn(range: IntRange): Subject<X> =
-    this verify IntRangeCondition(range)
+    this verify IntRangeExpectation(range)
 
 
-class IntRangeCondition(private val range: IntRange) : MCondition<Number> {
+class IntRangeExpectation(private val range: IntRange) : MandatoryExpectation<Number> {
     override fun describe() = "a number in ${range.first} .. ${range.last}"
-    override fun check(subject: MSubject<Number>): Result =
+    override fun check(subject: ActualSubject<Number>): Result =
         when (val x = subject.x) {
             is Int -> when {
                 x < range.first -> SimpleFail("Number is not in the range (too small)")
@@ -90,7 +90,7 @@ infix fun Subject<Float>.mustBe(expect: FloatWithTolerance): Subject<Float> =
     this verify expect
 
 
-class FloatWithTolerance(private val expect: Float, private val tolerance: Float) : MCondition<Float> {
+class FloatWithTolerance(private val expect: Float, private val tolerance: Float) : MandatoryExpectation<Float> {
 
     init {
         require(tolerance >= 0) { "Tolerance must not be negative" }
@@ -98,7 +98,7 @@ class FloatWithTolerance(private val expect: Float, private val tolerance: Float
 
     override fun describe() = "$expect with tolerance $tolerance"
 
-    override fun check(subject: MSubject<Float>): Result =
+    override fun check(subject: ActualSubject<Float>): Result =
         when {
             subject.x < expect - tolerance -> SimpleFail("Number is too small")
             subject.x > expect + tolerance -> SimpleFail("Number is too large")
