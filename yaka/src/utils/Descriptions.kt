@@ -1,4 +1,4 @@
-package lb.yaka.util
+package lb.yaka.utils
 
 
 fun Any.describe(full: Boolean): String =

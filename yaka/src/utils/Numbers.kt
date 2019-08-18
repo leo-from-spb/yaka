@@ -1,4 +1,4 @@
-package lb.yaka.util
+package lb.yaka.utils
 
 
 const val `0`: Byte = 0.toByte()
