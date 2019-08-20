@@ -53,4 +53,28 @@ class NumbersTest : UnitTestCase() {
     }
 
 
+    @Test
+    fun equality_Float_precisely() {
+        val z0: Float = 376.73f
+        z0 mustBe 376.73f
+    }
+
+    @Test
+    fun equality_Float_withImprecision() {
+        val pi: Float = 3.1415f
+        pi mustBe Math.PI.withImprecision(0.0001)
+    }
+
+    @Test
+    fun equality_Double_precisely() {
+        val h: Double = 6.62607015e-34
+        h mustBe 6.62607015e-34
+    }
+
+    @Test
+    fun equality_Double_withImprecision() {
+        val pi: Double = 2.718281828
+        pi mustBe Math.E.withImprecision(0.000000001)
+    }
+
 }
