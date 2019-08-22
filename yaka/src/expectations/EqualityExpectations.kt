@@ -12,6 +12,9 @@ class EqualityExpectation<X>(private val expect: X) : NounExpectation<X> {
                             expect = this.expect?.describe(true) ?: "null",
                             actual = subject.actual?.describe(true) ?: "null")
 
+    override fun briefDescription(): String = expect?.describe(false) ?: "null"
+    override fun completeDescription(): String = expect?.describe(true) ?: "null"
+    
 }
 
 

@@ -24,6 +24,8 @@ class ExceptionExpectation<E: Throwable>(private val exceptionClass: KClass<E>):
     override fun transform(subject: Subject<Routine>): Subject<E> =
         subject.transformM(exceptionClass, exception castTo exceptionClass)
 
+    override fun briefDescription(): String = "throws ${exceptionClass.simpleName}"
+    
 }
                                                                                                                                      
 inline fun<reified E:Throwable> throwException() = ExceptionExpectation(E::class)

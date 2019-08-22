@@ -9,6 +9,10 @@ interface Expectation<in X> {
 
     fun check(subject: Subject<X>): Result
 
+    fun briefDescription(): String
+
+    fun completeDescription(): String = briefDescription()
+
 }
 
 interface NounExpectation<in X> : Expectation<X>

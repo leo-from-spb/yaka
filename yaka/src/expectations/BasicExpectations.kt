@@ -22,6 +22,8 @@ class ClassExpectation<Y: Any>(private val klass: KClass<Y>): MagicNounExpectati
 
     override fun transform(subject: Subject<Any?>): Subject<Y> = subject.transformM(klass)
 
+    override fun briefDescription(): String = "is instance of class ${klass.simpleName}"
+
 }
 
 

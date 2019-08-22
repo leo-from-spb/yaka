@@ -1,6 +1,7 @@
 package lb.yaka.expectations
 
 import lb.yaka.gears.*
+import lb.yaka.utils.describe
 
 
 class TextEqualityExpectation(private val expect: String,
@@ -18,6 +19,12 @@ class TextEqualityExpectation(private val expect: String,
             else -> Fail("doesn't equal to the expected text, the text: $s")
         }
     }
+
+    override fun briefDescription(): String =
+            if (ignoreCase) expect.describe(false) + " (ignoring case)"
+            else expect.describe(false)
+
+    override fun completeDescription(): String = expect
 
 }
 
@@ -37,6 +44,9 @@ class TextContainExpectation(private val substring: String,
         }
     }
 
+    override fun briefDescription(): String =
+            "contains" + (if (ignoreCase) " (ignoring case):" else "") + substring
+
 }
 
 
@@ -47,6 +57,8 @@ class TextMatchExpectation(private val regex: Regex) : VerbExpectation<CharSeque
         return if (s matches regex) Ok else Fail("doesn't match the regular expression, the text: $s")
         // TODO improve the reporting
     }
+
+    override fun briefDescription(): String = "matches regular expression: $regex"
 
 }
 

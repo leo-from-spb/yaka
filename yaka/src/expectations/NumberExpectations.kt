@@ -3,6 +3,7 @@
 package lb.yaka.expectations
 
 import lb.yaka.gears.*
+import lb.yaka.utils.describe
 
 
 class NumberIntEqualityExpectation(private val expect: Int): NounExpectation<Number?> {
@@ -18,6 +19,9 @@ class NumberIntEqualityExpectation(private val expect: Int): NounExpectation<Num
             else -> Ok
         }
     }
+
+    override fun briefDescription() = expect.describe(false)
+
 }
 
 class NumberLongEqualityExpectation(private val expect: Long): NounExpectation<Number?> {
@@ -31,6 +35,9 @@ class NumberLongEqualityExpectation(private val expect: Long): NounExpectation<N
             else -> Ok
         }
     }
+
+    override fun briefDescription() = expect.describe(false)
+
 }
 
 
@@ -45,6 +52,9 @@ class NumberToFloatWithPrecisionExpectation(private val expect: FloatWithImpreci
             else                -> Ok
         }
     }
+
+    override fun briefDescription() = expect.toString()
+
 }
 
 class NumberToDoubleWithPrecisionExpectation(private val expect: DoubleWithImprecision): NounExpectation<Number?> {
@@ -58,6 +68,9 @@ class NumberToDoubleWithPrecisionExpectation(private val expect: DoubleWithImpre
             else                -> Ok
         }
     }
+
+    override fun briefDescription() = expect.toString()
+
 }
 
 
@@ -75,6 +88,8 @@ class NumberInIntRangeExpectation(private val range: IntRange): NounExpectation<
         }
     }
 
+    override fun briefDescription() = "a value in ${range.first} .. ${range.last}"
+
 }
 
 class NumberInLongRangeExpectation(private val range: LongRange): NounExpectation<Number?> {
@@ -89,17 +104,21 @@ class NumberInLongRangeExpectation(private val range: LongRange): NounExpectatio
         }
     }
 
+    override fun briefDescription() = "a value in ${range.first} .. ${range.last}"
+
 }
 
 
 class DoubleWithImprecision(val value: Double, val imprecision: Double) {
     val min: Double get() = value - imprecision
     val max: Double get() = value + imprecision
+    override fun toString() = if (imprecision == 0.0) "$value exactly" else "$value ± $imprecision"
 }
 
 class FloatWithImprecision(val value: Float, val imprecision: Float) {
     val min: Float get() = value - imprecision
     val max: Float get() = value + imprecision
+    override fun toString() = if (imprecision == 0.0f) "$value exactly" else "$value ± $imprecision"
 }
 
 inline fun Float.withImprecision(imprecision: Float) = FloatWithImprecision(this, imprecision)

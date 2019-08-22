@@ -1,7 +1,7 @@
 package lb.yaka.gears
 
-import lb.yaka.Yaka
 import lb.yaka.lb.yaka.util.castTo
+import lb.yaka.utils.describe
 import kotlin.reflect.KClass
 
 
@@ -49,6 +49,13 @@ sealed class Subject<out X> {
     infix fun<Y> mustConform2(expectation: MagicExpectation<@UnsafeVariance X, Y>): Subject<Y> =
         handle(expectation)
 
+    // auxiliary stuff
+
+    open fun briefDescription(): String = actual?.describe(false) ?: "null"
+    open fun completeDescription(): String = actual?.describe(true) ?: "null"
+
+    override fun toString() = this.javaClass.simpleName + ": " + briefDescription()
+    
 }
 
 
@@ -65,18 +72,21 @@ class ActualSubject<out X>(override val actual: X, override val name: String) : 
     override fun handle(expectation: Expectation<@UnsafeVariance X>): Subject<X> {
         val result = expectation.check(this)
         return when (result) {
-            is Ok -> this
-            is Fail -> Yaka.fail(result.problem)
+            is Ok   -> this
+            is Fail -> raise(expectation, result)
         }
     }
 
     override fun <Y> handle(expectation: MagicExpectation<@UnsafeVariance X, Y>): Subject<Y> {
         val result = expectation.check(this)
         return when (result) {
-            is Ok -> expectation.transform(this)
-            is Fail -> Yaka.fail(result.problem)
+            is Ok   -> expectation.transform(this)
+            is Fail -> raise(expectation, result)
         }
     }
+
+    private fun raise(expectation: Expectation<*>, fail: Fail): Nothing =
+            reportFail(this, expectation, fail)
 
 }
 
@@ -152,5 +162,9 @@ object Oblivion : Subject<Nothing>() {
     override fun handle(expectation: Expectation<Nothing>) = this
 
     override fun <Y> handle(expectation: MagicExpectation<Nothing, Y>) = this
+
+    override fun briefDescription() = "Oblivion"
+    override fun completeDescription() = "Oblivion"
+    override fun toString() = "Oblivion"
     
 }
