@@ -1,6 +1,6 @@
 package lb.yaka.gears
 
-import lb.yaka.lb.yaka.util.castTo
+import lb.yaka.utils.castTo
 import lb.yaka.utils.describe
 import kotlin.reflect.KClass
 

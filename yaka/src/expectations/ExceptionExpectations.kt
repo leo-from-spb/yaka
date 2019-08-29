@@ -1,9 +1,9 @@
 package lb.yaka.expectations
 
 import lb.yaka.gears.*
-import lb.yaka.lb.yaka.util.castTo
-import lb.yaka.lb.yaka.util.isInstanceOf
 import lb.yaka.utils.Routine
+import lb.yaka.utils.castTo
+import lb.yaka.utils.isInstanceOf
 import kotlin.reflect.KClass
 
 

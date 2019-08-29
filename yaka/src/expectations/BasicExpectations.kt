@@ -3,7 +3,7 @@
 package lb.yaka.expectations
 
 import lb.yaka.gears.*
-import lb.yaka.lb.yaka.util.isInstanceOf
+import lb.yaka.utils.isInstanceOf
 import kotlin.reflect.KClass
 
 

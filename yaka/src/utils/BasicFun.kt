@@ -1,4 +1,4 @@
-package lb.yaka.lb.yaka.util
+package lb.yaka.utils
 
 import kotlin.reflect.KClass
 
