@@ -1,14 +1,11 @@
 # Idea stuff
 .idea/workspace.xml
-.idea/workspace.xml
 .idea/uiDesigner.xml
 .idea/deployment.xml
 .idea/shelf
 .idea/ant.xml
 .idea/dataSources.local.xml
-.idea/libraries
-.idea/modules
-.idea/modules.xml
+.idea/$*
 out
 
 # Gradle stuff
