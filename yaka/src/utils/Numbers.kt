@@ -4,6 +4,24 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
+import kotlin.math.sign
+
+
+val Number.sign: Int
+    get() =
+        when (this) {
+            is Byte          -> this.toInt().sign
+            is Short         -> this.toInt().sign
+            is Int           -> this.sign
+            is Long          -> this.sign
+            is AtomicInteger -> this.get().sign
+            is AtomicLong    -> this.get().sign
+            is Float         -> this.sign.toInt()
+            is Double        -> this.sign.toInt()
+            is BigInteger    -> this.signum()
+            is BigDecimal    -> this.signum()
+            else             -> throw IllegalArgumentException("Failed to obtain the signum of ${this.javaClass.simpleName}")
+        }
 
 
 operator fun Number.compareTo(that: Number): Int =
