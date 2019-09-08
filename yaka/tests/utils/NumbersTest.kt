@@ -1,6 +1,8 @@
 package lb.yaka.utils
 
 import lb.yaka.AbstractUnitTest
+import lb.yaka.assertions.*
+import lb.yaka.gears.assert
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -54,8 +56,7 @@ class NumbersTest: AbstractUnitTest() {
     @MethodSource("positiveArguments")
     fun signumPositive(a: Number, c: String) {
         val signum: Int = a.sign
-        // assert that signum equalsTo +1
-        assert(signum == +1)  // will be replaced with our assertion
+        assert that signum equalsTo +1
         c + "" // just for compiler, to get rid of message that these variables are not used
     }
 
@@ -63,8 +64,7 @@ class NumbersTest: AbstractUnitTest() {
     @MethodSource("negativeArguments")
     fun signumNegative(a: Number, c: String) {
         val signum: Int = a.sign
-        // assert that signum equalsTo -1
-        assert(signum == -1)  // will be replaced with our assertion
+        assert that signum equalsTo -1
         c + "" // just for compiler, to get rid of message that these variables are not used
     }
 
@@ -73,8 +73,7 @@ class NumbersTest: AbstractUnitTest() {
     @MethodSource("positivePairArguments")
     fun equalityPositive(a: Number, b: Number, a_: String, b_: String) {
         val z: Int = a.compareTo(b)
-        // assert that z equalsTo 0
-        assert(z == 0)  // will be replaced with our assertion
+        assert that z iz zero
         a_ + b_ // just for compiler, to get rid of message that these variables are not used
     }
 
