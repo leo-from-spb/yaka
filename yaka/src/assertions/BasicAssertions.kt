@@ -1,6 +1,7 @@
 package lb.yaka.assertions
 
 import lb.yaka.gears.*
+import lb.yaka.utils.*
 import kotlin.reflect.KClass
 
 
@@ -64,20 +65,18 @@ infix fun<X: Any> Subject<X>.meets(predicate: (X) -> Boolean): Subject<X> =
     }
 
 
-infix fun<X: Any> Subject<X>.iz(klass: KClass<*>): Subject<X> =   // TODO add some magic
-    handle("is an instance of the class ${klass.simpleName}") {
-        when {
-            x == null -> NullFail
-            klass.java.isAssignableFrom(x.javaClass) -> Ok
-            else -> Fail("actual class is ${x.javaClass.kotlin.qualifiedName}")
-        }
+infix fun<X: Any, Y: Any> Subject<X>.iz(klass: KClass<Y>): Subject<Y> =
+    handleAlteration("is an instance of the class ${klass.simpleName}") {
+        if (x == null) return@handleAlteration NullFail
+        val y: Y? = x tryCastTo klass
+        if (y != null) return@handleAlteration Product(y)
+        else return@handleAlteration Fail("actual class is ${x.javaClass.kotlin.qualifiedName}")
     }
 
-infix fun<X: Any> Subject<X>.iz(clazz: Class<*>): Subject<X> =   // TODO add some magic
-    handle("is an instance of the java class ${clazz.simpleName}") {
-        when {
-            x == null -> NullFail
-            clazz.isAssignableFrom(x.javaClass) -> Ok
-            else -> Fail("actual class is ${x.javaClass.name}")
-        }
+infix fun<X: Any, Y: Any> Subject<X>.iz(klass: Class<Y>): Subject<Y> =
+    handleAlteration("is an instance of the class ${klass.simpleName}") {
+        if (x == null) return@handleAlteration NullFail
+        val y: Y? = x tryCastTo klass
+        if (y != null) return@handleAlteration Product(y)
+        else return@handleAlteration Fail("actual class is ${x.javaClass.name}")
     }

@@ -1,16 +1,20 @@
 package lb.yaka.gears
 
 
-sealed class Result
+sealed class Result<out R: Any>
 
 
-sealed class SuccessResult : Result()
+sealed class Success<out R: Any> : Result<R>()
 
 
-object Ok : SuccessResult()
+object Ok : Success<Any>()
 
 
-open class Fail(val problem: String) : Result()
+class Product<out R: Any> (val value: R) : Success<R>()
+
+
+
+open class Fail(val problem: String) : Result<Nothing>()
 
 
 object NullFail : Fail("is null")

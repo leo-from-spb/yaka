@@ -4,6 +4,7 @@ import lb.yaka.AbstractUnitTest
 import lb.yaka.gears.assert
 import lb.yaka.utils.*
 import org.junit.jupiter.api.Test
+import java.math.BigInteger
 
 class BasicTest: AbstractUnitTest() {
 
@@ -54,7 +55,7 @@ class BasicTest: AbstractUnitTest() {
 
 
     @Test
-    fun value_class() {
+    fun value_kotlinClass() {
         val x: CharSequence? = "Kotlin"
         assert that x iz String::class
     }
@@ -65,5 +66,16 @@ class BasicTest: AbstractUnitTest() {
         assert that x iz String::class.java
     }
 
+    @Test
+    fun value_kotlinClass_alteration() {
+        val x: Any? = 99L
+        assert that x iz Long::class greaterThan 88L
+    }
+
+    @Test
+    fun value_javaClass_alteration() {
+        val x: Any? = BigInteger("777")
+        assert that x iz Number::class.java greaterThanOrEqualsTo 777
+    }
 
 }
