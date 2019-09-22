@@ -49,8 +49,8 @@ class AggregatingController(val origin: Controller) : Controller() {
 
 
 object Oblivion : Controller() {
-    object Skeleton : Subject<Nothing>(null, "Ancient Skeleton", Oblivion)
+    private val skeleton = Subject<Nothing>(null, "Ancient Skeleton", Oblivion)
     override fun <X : Any> handle(subject: Subject<X>, expectationDescription: String, checkFunction: CheckFunction<X>) {}
-    override fun <X: Any, Y: Any> handleAlteration(subject: Subject<X>, expectationDescription: String, checkFunction: CheckAlterFunction<X, Y>): Subject<Y> = Skeleton
+    override fun <X: Any, Y: Any> handleAlteration(subject: Subject<X>, expectationDescription: String, checkFunction: CheckAlterFunction<X, Y>): Subject<Y> = skeleton
 }
 

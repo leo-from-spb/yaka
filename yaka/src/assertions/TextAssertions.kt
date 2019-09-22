@@ -15,6 +15,9 @@ object notBlank : ExpectationMarker(true, "is not blank blank")
 
 
 
+typealias TextSubject = Subject<CharSequence>
+
+
 
 infix fun TextSubject.iz(marker: emptyOrNull): TextSubject =
     handle(marker) {
