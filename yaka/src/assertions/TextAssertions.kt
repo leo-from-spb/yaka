@@ -1,34 +1,56 @@
+@file:Suppress("ClassName")
+
 package lb.yaka.assertions
 
-import lb.yaka.assertions.TextCheckMarker.*
 import lb.yaka.gears.*
 import lb.yaka.utils.*
 
 
-enum class TextCheckMarker (val mandatory: Boolean, val description: String) {
-    nullOrEmpty (false, "is null or empty"),
-    nullOrBlank (false, "is null or blank"),
-    empty       (true,  "is empty"),
-    blank       (true,  "is blank"),
-    notEmpty    (true,  "is not empty"),
-    notBlank    (true,  "is not blank");
-}
+
+object blankOrNull : ExpectationMarker(false, "is blank or null")
+
+object blank : ExpectationMarker(true, "is blank")
+
+object notBlank : ExpectationMarker(true, "is not blank blank")
 
 
-infix fun TextSubject.iz(marker: TextCheckMarker): TextSubject =
-    handle(marker.description) {
-        if (x != null) {
-            when (marker) {
-                empty, nullOrEmpty -> if (x.isEmpty()) Ok else Fail("is not empty")
-                blank, nullOrBlank -> if (x.isBlank()) Ok else Fail("is not blank")
-                notEmpty -> if (x.isNotEmpty()) Ok else Fail("is empty")
-                notBlank -> if (x.isNotBlank()) Ok else Fail("is blank")
-            }
-        }
-        else {
-            if (marker.mandatory) NullFail
-            else Ok
-        }
+
+
+infix fun TextSubject.iz(marker: emptyOrNull): TextSubject =
+    handle(marker) {
+        if (it.isEmpty()) Ok
+        else Fail("has ${it.length} characters")
+    }
+
+infix fun TextSubject.iz(marker: empty): TextSubject =
+    handle(marker) {
+        if (it.isEmpty()) Ok
+        else Fail("has ${it.length} characters")
+    }
+
+infix fun TextSubject.iz(marker: blankOrNull): TextSubject =
+    handle(marker) {
+        if (it.isBlank()) Ok
+        else Fail("has ${it.trim().length} characters (excluding trailing spaces)")
+    }
+
+infix fun TextSubject.iz(marker: blank): TextSubject =
+    handle(marker) {
+        if (it.isBlank()) Ok
+        else Fail("has ${it.trim().length} characters (excluding trailing spaces)")
+    }
+
+infix fun TextSubject.iz(marker: notEmpty): TextSubject =
+    handle(marker) {
+        if (it.isNotEmpty()) Ok
+        else Fail("is empty")
+    }
+
+infix fun TextSubject.iz(marker: notBlank): TextSubject =
+    handle(marker) {
+        if (it.isNotBlank()) Ok
+        else if (it.isNotEmpty()) Fail("is blank")
+        else Fail("is empty")
     }
 
 

@@ -1,8 +1,8 @@
 package lb.yaka.assertions
 
 import lb.yaka.AbstractUnitTest
-import lb.yaka.assertions.TextCheckMarker.*
 import lb.yaka.gears.assert
+import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
 
 
@@ -30,8 +30,8 @@ class TextTest: AbstractUnitTest() {
     @Test
     fun `null is not null or empty or blank`() {
         val x: CharSequence? = null
-        assert that x iz nullOrEmpty
-        assert that x iz nullOrBlank
+        assert that x iz emptyOrNull
+        assert that x iz blankOrNull
     }
 
     /// endregion

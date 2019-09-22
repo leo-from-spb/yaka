@@ -24,6 +24,14 @@ open class TextSubject (x: String?, name: String, controller: Controller) : Subj
 
 
 
+fun <X: Any, S: Subject<X>> S.handle(marker: ExpectationMarker, function: CheckValueFunction<X>): S {
+    controller.handle(this, marker.description) {
+        val x: X = this.x ?: return@handle if (marker.mandatory) NullFail else Ok
+        return@handle function(x)
+    }
+    return this
+}
+
 
 fun <X: Any, S: Subject<X>> S.handle(expectationDescription: String, checkFunction: CheckFunction<X>): S {
     controller.handle(this, expectationDescription, checkFunction)
