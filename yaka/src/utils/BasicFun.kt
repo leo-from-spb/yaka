@@ -5,6 +5,9 @@ import kotlin.reflect.KClass
 
 
 
+typealias Routine = () -> Unit
+
+
 infix fun Any?.isInstanceOf(klass: KClass<out Any>) =
     this != null && klass.isInstance(this)
 

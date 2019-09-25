@@ -13,6 +13,8 @@ class Subject<out X: Any> (
 
     internal fun<Y: Any> alter(y: Y): Subject<Y> = Subject(y, name, controller)
 
+    internal fun<Y: Any> alter(y: Y?, innerName: String): Subject<Y> = Subject(y, "$name: $innerName", controller)
+
 }
 
 
