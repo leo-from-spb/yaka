@@ -5,10 +5,18 @@ import lb.yaka.utils.*
 import kotlin.reflect.KClass
 
 
+//@JvmName("izNull")
+//infix fun<X: Any> Subject<X>.iz(`null`: Nothing?): Subject<X> =
+//    handle("is null") {
+//        if (x === `null`) Ok
+//        else Fail("is not null")
+//    }
+
+// while the KT-30176 is not fixed
 @JvmName("izNull")
-infix fun<X: Any> Subject<X>.iz(`null`: Nothing?): Subject<X> =
+infix fun<X: Any> Subject<X>.iz(@Suppress("unused_parameter") `null`: Null): Subject<X> =
     handle("is null") {
-        if (x === `null`) Ok
+        if (x === null) Ok
         else Fail("is not null")
     }
 
@@ -22,8 +30,10 @@ infix fun<X: Any> Subject<X>.iz(@Suppress("unused_parameter") notNull: NotNull):
 
 
 @Suppress("ClassName")
-class NotNull
-val notNull = NotNull()
+object NotNull
+val notNull = NotNull
+
+object Null
 
 
 infix fun<X: Any> Subject<X>.equalsTo(expect: X): Subject<X> =

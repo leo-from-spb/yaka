@@ -31,7 +31,7 @@ class ExceptionsTest: AbstractUnitTest() {
     fun basic_cause() {
         expectException<RuntimeException> {
             divideByZero()
-        } where cause // ASK iz null
+        } where cause iz Null
     }
 
     private fun divideByZero() {

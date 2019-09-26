@@ -11,7 +11,7 @@ class BasicTest: AbstractUnitTest() {
     @Test
     fun struct_isNull() {
         val x: Pair<Byte,Short>? = null
-        // ASK assert that x iz null
+        assert that x iz Null
     }
 
     @Test
