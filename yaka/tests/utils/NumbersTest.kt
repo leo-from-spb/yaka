@@ -18,6 +18,18 @@ class NumbersTest: AbstractUnitTest() {
 
     companion object {
 
+
+        fun ordinalNumbersToParse(): List<Number> = listOf<Number>(
+            `0`, `1`, `99`, `100`, `127`, `-1`, `-99`, `-100`, `-127`,
+            128.toShort(), 1000.toShort(), Short.MAX_VALUE, (-129).toShort(), (-1000).toShort(), Short.MIN_VALUE,
+            32768, 100000, Int.MAX_VALUE, -32769, -100000, Int.MIN_VALUE,
+            2147483648L, 10000000000L, Long.MAX_VALUE, -2147483649L, -10000000000L, Long.MIN_VALUE,
+            BigInteger("9223372036854775808"), BigInteger("10000000000000000000"), BigInteger("-9223372036854775809"), BigInteger("-10000000000000000000")
+        )
+
+        @JvmStatic @Suppress("unused")
+        fun ordinalNumbersToParseArgs() = ordinalNumbersToParse().map { arguments(it.toString(), it) }
+
         private val atomic26 = AtomicInteger(26)
         private val atomic26L = AtomicLong(26L)
         private val atomicMinus26 = AtomicInteger(-26)
@@ -51,6 +63,14 @@ class NumbersTest: AbstractUnitTest() {
 
     }
 
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("ordinalNumbersToParseArgs")
+    fun stringToNumber_ordinal(string: String, number: Number) {
+        val actual = string.toNumberOrNull()
+        assert that actual equalsTo number
+        assert that actual iz number.javaClass
+    }
 
     @ParameterizedTest(name = "{1}")
     @MethodSource("positiveArguments")

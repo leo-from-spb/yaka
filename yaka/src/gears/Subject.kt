@@ -11,7 +11,7 @@ class Subject<out X: Any> (
 
     infix fun aka(name: String): Subject<X> = Subject(x, name, controller)
 
-    internal fun<Y: Any> alter(y: Y): Subject<Y> = Subject(y, name, controller)
+    internal fun<Y: Any> alter(y: Y?): Subject<Y> = Subject(y, name, controller)
 
     internal fun<Y: Any> alter(y: Y?, innerName: String): Subject<Y> = Subject(y, "$name: $innerName", controller)
 

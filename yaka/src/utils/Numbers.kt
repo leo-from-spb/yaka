@@ -24,6 +24,50 @@ val Number.sign: Int
         }
 
 
+
+fun CharSequence.toNumberOrNull(): Number? {
+    val matcher = this match decimalNumberPattern ?: return null
+    val (gSing, gNumber, gMantissa, gFraction, gExp, gExpVal) = matcher.destructured
+    if (gFraction.isEmpty() && gExpVal.isEmpty()) {
+        if (gMantissa.isEmpty()) return zeroByte
+        val s = gSing + gMantissa
+        return when (gMantissa.length) {
+            1,2                     -> s.toByte()
+            3                       -> s.toByteOrNull() ?: s.toShort()
+            4                       -> s.toShort()
+            5                       -> s.toShortOrNull() ?: s.toInt()
+            6,7,8,9                 -> s.toInt()
+            10                      -> s.toIntOrNull() ?: s.toLong()
+            11,12,13,14,15,16,17,18 -> s.toLong()
+            19                      -> s.toLongOrNull() ?: BigInteger(s)
+            else                    -> BigInteger(s)
+        }
+    }
+    else {
+        val s = gSing + gNumber
+        val n = (if (gMantissa.isNotEmpty()) gMantissa.length - 1 else 0) + (if (gFraction.isNotEmpty()) gFraction.length - 1 else 0)
+        val q = if (gExpVal.isNotEmpty()) gExpVal.toInt() else 0
+        val q1 = gMantissa.length + q
+        return when {
+            n <= 7 && q1 < 38   -> s.toFloat()
+            n <= 17 && q1 < 308 -> s.toDouble()
+            else                -> BigDecimal(s)
+        }
+    }
+}
+
+
+/**
+ * Groups: 1 - sign
+ *         2 - the number without sign
+ *         3 - mantissa
+ *         4 - fraction
+ *         5 - exponent
+ *         6 - exponent's value without exponent's sign
+ */
+private val decimalNumberPattern = Regex("""^\s*([-+])?\s*(0*([1-9]\d*)?((\.\d*)?([eE][-+]?0*(\d+))?))\s*$""")
+
+
 operator fun Number.compareTo(that: Number): Int =
     when (this) {
         is Byte          -> this.compareTo(that)
@@ -168,4 +212,5 @@ private fun unableToCompare(a: Number, b: Number): Nothing =
 
 
 
+val zeroByte: Byte = 0.toByte()
 

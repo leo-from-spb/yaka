@@ -2,7 +2,8 @@ package lb.yaka.assertions
 
 import lb.yaka.AbstractUnitTest
 import lb.yaka.gears.assert
-import lb.yaka.gears.*
+import lb.yaka.gears.emptyOrNull
+import lb.yaka.gears.notEmpty
 import org.junit.jupiter.api.Test
 
 
@@ -32,20 +33,6 @@ class TextTest: AbstractUnitTest() {
         val x: CharSequence? = null
         assert that x iz emptyOrNull
         assert that x iz blankOrNull
-    }
-
-    /// endregion
-
-    /// region MATCH
-
-    @Test
-    fun `string matches regex 1`() {
-        assert that "Saint-Petersburg is a beautiful city" matches Regex("^.*beaut[iy].*$")
-    }
-
-    @Test
-    fun `string matches regex 2`() {
-        assert that "Saint-Petersburg is a beautiful city" matches "^.*beaut[iy].*$"
     }
 
     /// endregion

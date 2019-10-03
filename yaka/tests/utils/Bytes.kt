@@ -69,6 +69,11 @@ const val `57`: Byte = 57.toByte()
 const val `58`: Byte = 58.toByte()
 const val `59`: Byte = 59.toByte()
 
+const val `99`: Byte = 99.toByte()
+
+const val `100`: Byte = 100.toByte()
+const val `127`: Byte = 127.toByte()
+
 const val `-1`: Byte = (-1).toByte()
 const val `-2`: Byte = (-2).toByte()
 const val `-3`: Byte = (-3).toByte()
@@ -100,4 +105,10 @@ const val `-26`: Byte = (-26).toByte()
 const val `-27`: Byte = (-27).toByte()
 const val `-28`: Byte = (-28).toByte()
 const val `-29`: Byte = (-29).toByte()
+
+const val `-99`: Byte = (-99).toByte()
+
+const val `-100`: Byte = (-100).toByte()
+const val `-127`: Byte = (-127).toByte()
+const val `-128`: Byte = (-128).toByte()
 

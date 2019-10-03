@@ -59,17 +59,6 @@ infix fun TextSubject.iz(marker: notBlank): TextSubject =
 
 
 
-infix fun TextSubject.matches(regex: String) = this.matches(Regex(regex))
-
-infix fun TextSubject.matches(regex: Regex): TextSubject =
-    handleValue("matches $regex") {
-        val m = regex.matchEntire(it)
-        if (m != null) Ok
-        else Fail("doesn't match the specified regular expression")
-    }
-
-
-
 infix fun TextSubject.contains(c: Char): TextSubject =
     handleValue("contains the character: '$c'") {
         if (c in it) Ok
@@ -107,4 +96,13 @@ infix fun TextSubject.containsAny(cc: Collection<Char>): TextSubject =
         Fail("doesn't contain at least one of the specified characters")
     }
 
+
+
+object decimalNumber
+
+
+infix fun TextSubject.az(`_`: decimalNumber): Subject<Number> {
+    val number: Number? = this.x?.toNumberOrNull()
+    return this.alter(number)
+}
 
