@@ -66,9 +66,22 @@ infix fun TextSubject.contains(c: Char): TextSubject =
     }
 
 infix fun TextSubject.contains(substr: String): TextSubject =
-    handleValue("""contains substring "$substr"""") {
+    handleValue("""contains the substring "$substr"""") {
         if (substr in it) Ok
         else Fail("doesn't contain")
+    }
+
+
+infix fun TextSubject.containsNot(c: Char): TextSubject =
+    handleValue("doesn't contains the character: '$c'") {
+        if (c !in it) Ok
+        else Fail("contains!") // TODO show positions and how many times
+    }
+
+infix fun TextSubject.containsNot(substr: String): TextSubject =
+    handleValue("""doesn't contain the substring "$substr"""") {
+        if (substr !in it) Ok
+        else Fail("contains!") // TODO show positions and how many times
     }
 
 
@@ -96,6 +109,31 @@ infix fun TextSubject.containsAny(cc: Collection<Char>): TextSubject =
         Fail("doesn't contain at least one of the specified characters")
     }
 
+
+infix fun TextSubject.hasLength(length: Int): TextSubject =
+    handleValue("has length $length") {
+        val n = it.length
+        when {
+            n == length -> Ok
+            n == 0      -> Fail("is empty")
+            n < length  -> Fail("is too short: length = $n")
+            n > length  -> Fail("is too long: length = $n")
+            else        -> Fail("length = $n") // just for compiler
+        }
+    }
+
+
+infix fun TextSubject.hasLength(lengthRange: IntRange): TextSubject =
+    handleValue("has length in range $lengthRange") {
+        val n = it.length
+        when {
+            n in lengthRange             -> Ok
+            n == 0                       -> Fail("is empty")
+            n < lengthRange.start        -> Fail("is too short: length = $n")
+            n > lengthRange.endInclusive -> Fail("is too long: length = $n")
+            else                         -> Fail("length = $n") // just for compiler
+        }
+    }
 
 
 object decimalNumber

@@ -19,6 +19,16 @@ class Subject<out X: Any> (
 
 
 
+infix fun <X: Any> Subject<X>.complies(block: Subject<X>.() -> Unit): Subject<X> {
+    val thisController = this.controller
+    if (thisController is Oblivion) return this
+    val aggregatingController = AggregatingController(thisController)
+    val aggregatingSubject: Subject<X> = Subject(this.x, this.name, aggregatingController)
+    aggregatingSubject.block()
+    return aggregatingController.flush(this)
+}
+
+
 
 fun <X: Any, S: Subject<X>> S.handle(marker: ExpectationMarker, function: CheckValueFunction<X>): S {
     controller.handle(this, marker.description) {
@@ -29,17 +39,15 @@ fun <X: Any, S: Subject<X>> S.handle(marker: ExpectationMarker, function: CheckV
 }
 
 
-fun <X: Any, S: Subject<X>> S.handle(expectationDescription: String, checkFunction: CheckFunction<X>): S {
-    controller.handle(this, expectationDescription, checkFunction)
-    return this
+fun <X: Any> Subject<X>.handle(expectationDescription: String, checkFunction: CheckFunction<X>): Subject<X> {
+    return controller.handle(this, expectationDescription, checkFunction)
 }
 
-fun <X: Any, S: Subject<X>> S.handleValue(expectationDescription: String, checkValueFunction: CheckValueFunction<X>): S {
-    controller.handle(this, expectationDescription) {
+fun <X: Any> Subject<X>.handleValue(expectationDescription: String, checkValueFunction: CheckValueFunction<X>): Subject<X> {
+    return controller.handle(this, expectationDescription) {
         val x: X = this.x ?: return@handle NullFail
         return@handle checkValueFunction(x)
     }
-    return this
 }
 
 fun <X: Any, Y: Any> Subject<X>.handleAlteration(expectationDescription: String, checkFunction: CheckAlterFunction<X,Y>): Subject<Y> {

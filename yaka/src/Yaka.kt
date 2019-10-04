@@ -19,11 +19,11 @@ object Yaka {
         Yaka::kotlinComparisonFail
 
     private fun kotlinBasicFail(message: String): Nothing {
-        throw AssertionError(message)
+        throw AssertionError("\n\n" + message)
     }
 
     private fun kotlinComparisonFail(message: String, actual: String, expect: String): Nothing {
-        val m = "$message\nActual: $actual\nExpect: $expect"
+        val m = "\n\n$message\nActual: $actual\nExpect: $expect"
         kotlinBasicFail(m)
     }
 

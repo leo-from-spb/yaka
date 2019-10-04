@@ -4,10 +4,29 @@ import lb.yaka.Yaka
 
 
 sealed class Controller {
-    
-    abstract fun<X: Any> handle(subject: Subject<X>, expectationDescription: String, checkFunction: CheckFunction<X>)
 
-    abstract fun<X: Any, Y: Any> handleAlteration(subject: Subject<X>, expectationDescription: String, checkFunction: CheckAlterFunction<X, Y>): Subject<Y>
+    open fun<X: Any> handle(subject: Subject<X>,
+                            expectationDescription: String,
+                            checkFunction: CheckFunction<X>): Subject<X> {
+        val result = subject.checkFunction()
+        when (result) {
+            is Success -> return subject
+            is Fail    -> { report(subject.name, expectationDescription, result.problem); return skeleton }
+        }
+    }
+
+    open fun <X: Any, Y: Any> handleAlteration(subject: Subject<X>,
+                                               expectationDescription: String,
+                                               checkFunction: CheckAlterFunction<X, Y>): Subject<Y> {
+        val result: Result<Y> = subject.checkFunction()
+        when (result) {
+            is Product -> return subject.alter(result.value)
+            is Success -> throw RuntimeException("Unexpected state: returned class ${result.javaClass.simpleName} instead of Product<R>")
+            is Fail    -> { report(subject.name, expectationDescription, result.problem); return skeleton }
+        }
+    }
+
+    internal abstract fun report(subjectName: String, expectationDescription: String, problemDescription: String)
 
 }
 
@@ -15,42 +34,93 @@ sealed class Controller {
 
 object DirectController : Controller() {
 
-    override fun<X: Any> handle(subject: Subject<X>,
-                                expectationDescription: String,
-                                checkFunction: CheckFunction<X>) {
-        val result = subject.checkFunction()
-        when (result) {
-            is Success -> return
-            is Fail    -> Yaka.fail(result.problem)
-        }
+    override fun report(subjectName: String, expectationDescription: String, problemDescription: String) {
+        val buff = StringBuilder()
+        buff.append(subjectName).append(": expectation failed\n")
+            .append("Expected: ").append(expectationDescription).append('\n')
+            .append("Actual:   ").append(problemDescription).append('\n')
+        reportMessage(buff)
     }
 
-    override fun <X: Any, Y: Any> handleAlteration(subject: Subject<X>, expectationDescription: String, checkFunction: CheckAlterFunction<X, Y>): Subject<Y> {
-        val result: Result<Y> = subject.checkFunction()
-        when (result) {
-            is Product -> return subject.alter(result.value)
-            is Success -> throw RuntimeException("Unexpected state: returned class ${result.javaClass.simpleName} instead of Product<R>")
-            is Fail    -> Yaka.fail(result.problem)
-        }
+    internal fun reportMessage(message: CharSequence) {
+        Yaka.fail(message = message.toString())
     }
+
 }
 
 
-class AggregatingController(val origin: Controller) : Controller() {
-    override fun <X : Any> handle(subject: Subject<X>, expectationDescription: String, checkFunction: CheckFunction<X>) {
-        TODO("not implemented yet")
+class AggregatingController(private val origin: Controller) : Controller() {
+    
+    private val problems: MutableList<ProblemInfo> = mutableListOf()
+
+    internal val hasProblems: Boolean get() = problems.isNotEmpty()
+
+    override fun report(subjectName: String, expectationDescription: String, problemDescription: String) {
+        problems += ProblemInfo(subjectName, expectationDescription, problemDescription)
     }
 
-    override fun <X: Any, Y: Any> handleAlteration(subject: Subject<X>, expectationDescription: String, checkFunction: CheckAlterFunction<X, Y>): Subject<Y> {
-        TODO("not implemented yet")
+    internal fun reportMulti(problems: Collection<ProblemInfo>) {
+        this.problems += problems
     }
+
+    internal fun<X: Any> flush(subject: Subject<X>): Subject<X> {
+        if (problems.isEmpty()) {
+            return subject
+        }
+        else {
+            when (origin) {
+                is DirectController      -> flushToDirect(origin, subject)
+                is AggregatingController -> flushToAggregate(origin)
+            }
+            return skeleton
+        }
+    }
+
+    private fun flushToDirect(controller: DirectController, subject: Subject<*>) {
+        when (val n = problems.size) {
+            0 -> {
+                /* all ok */
+            }
+            1 -> {
+                val p = problems.first()
+                origin.report(p.subjectName, p.expectationDescription, p.problemDescription)
+            }
+            else -> {
+                val buff = StringBuilder()
+                buff.append(subject.name).append(": $n expectations failed\n")
+                var k = 0
+                for (p in problems) {
+                    k++
+                    buff.append("\t---- ----- $k ---- -----\n")
+                        .append("\tExpected: ").append(p.expectationDescription).append('\n')
+                        .append("\tActual:   ").append(p.problemDescription).append('\n')
+                }
+                buff.append("\t---- ----- - ---- -----\n")
+                controller.reportMessage(buff)
+            }
+        }
+    }
+
+    private fun flushToAggregate(controller: AggregatingController) {
+        controller.reportMulti(problems)
+    }
+
 }
 
 
 
 object Oblivion : Controller() {
-    private val skeleton = Subject<Nothing>(null, "Ancient Skeleton", Oblivion)
-    override fun <X : Any> handle(subject: Subject<X>, expectationDescription: String, checkFunction: CheckFunction<X>) {}
+    override fun <X : Any> handle(subject: Subject<X>, expectationDescription: String, checkFunction: CheckFunction<X>): Subject<X> = skeleton
     override fun <X: Any, Y: Any> handleAlteration(subject: Subject<X>, expectationDescription: String, checkFunction: CheckAlterFunction<X, Y>): Subject<Y> = skeleton
+    override fun report(subjectName: String, expectationDescription: String, problemDescription: String) {}
 }
 
+
+
+
+internal data class ProblemInfo (val subjectName: String, 
+                                 val expectationDescription: String, 
+                                 val problemDescription: String)
+
+
+internal val skeleton = Subject<Nothing>(null, "Ancient Skeleton", Oblivion)

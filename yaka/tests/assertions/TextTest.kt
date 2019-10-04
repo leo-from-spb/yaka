@@ -65,6 +65,32 @@ class TextTest: AbstractUnitTest() {
         assert that "typewriter" containsAny arrayOf('q','w','e','r','t','y','u','i','o','p')
     }
 
+    @Test
+    fun `char sequence doesn't contain char`() {
+        val b: CharSequence? = StringBuilder("ABC")
+        assert that b containsNot 'Z'
+    }
+
+    @Test
+    fun `char sequence doesn't contain substring`() {
+        val b: CharSequence? = StringBuilder("ABC")
+        assert that b containsNot "CD" containsNot "AC"
+    }
+
+    /// endregion
+
+    /// region LENGTH
+
+    @Test
+    fun `length exactly`() {
+        assert that "ABC DEF" hasLength 7
+    }
+
+    @Test
+    fun `length in range`() {
+        assert that "ABC DEF" hasLength 5 .. 9
+    }
+
     /// endregion
 
 }
