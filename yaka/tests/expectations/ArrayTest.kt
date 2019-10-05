@@ -14,6 +14,43 @@ class ArrayTest: AbstractUnitTest() {
 
 
     @Test
+    fun `array of bytes`() {
+        val a = byteArrayOf(`26`)
+        expect that a hasSize 1 contains `26`
+    }
+
+    @Test
+    fun `array of shorts`() {
+        val a = shortArrayOf(1980)
+        expect that a hasSize 1 contains 1980.toShort()
+    }
+
+    @Test
+    fun `array of ints`() {
+        val a = intArrayOf(123456789)
+        expect that a hasSize 1 contains 123456789
+    }
+
+    @Test
+    fun `array of longs`() {
+        val a = longArrayOf(Long.MAX_VALUE)
+        expect that a hasSize 1 contains Long.MAX_VALUE
+    }
+
+    @Test
+    fun `array of floats`() {
+        val a = floatArrayOf(3.1415f)
+        expect that a hasSize 1 contains 3.1415f
+    }
+
+    @Test
+    fun `array of doubles`() {
+        val a = doubleArrayOf(2.718281828)
+        expect that a hasSize 1 contains 2.718281828
+    }
+
+
+    @Test
     fun `null array is empty or null`() {
         val nullArray: Array<Any?>? = null
         expect that nullArray iz emptyOrNull
