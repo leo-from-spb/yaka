@@ -1,8 +1,8 @@
 package lb.yaka.utils
 
 import lb.yaka.AbstractUnitTest
-import lb.yaka.assertions.*
-import lb.yaka.gears.assert
+import lb.yaka.expectations.*
+import lb.yaka.gears.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -68,15 +68,15 @@ class NumbersTest: AbstractUnitTest() {
     @MethodSource("ordinalNumbersToParseArgs")
     fun stringToNumber_ordinal(string: String, number: Number) {
         val actual = string.toNumberOrNull()
-        assert that actual equalsTo number
-        assert that actual iz number.javaClass
+        expect that actual equalsTo number
+        expect that actual iz number.javaClass
     }
 
     @ParameterizedTest(name = "{1}")
     @MethodSource("positiveArguments")
     fun signumPositive(a: Number, c: String) {
         val signum: Int = a.sign
-        assert that signum equalsTo +1
+        expect that signum equalsTo +1
         c + "" // just for compiler, to get rid of message that these variables are not used
     }
 
@@ -84,7 +84,7 @@ class NumbersTest: AbstractUnitTest() {
     @MethodSource("negativeArguments")
     fun signumNegative(a: Number, c: String) {
         val signum: Int = a.sign
-        assert that signum equalsTo -1
+        expect that signum equalsTo -1
         c + "" // just for compiler, to get rid of message that these variables are not used
     }
 
@@ -93,7 +93,7 @@ class NumbersTest: AbstractUnitTest() {
     @MethodSource("positivePairArguments")
     fun equalityPositive(a: Number, b: Number, a_: String, b_: String) {
         val z: Int = a.compareTo(b)
-        assert that z iz zero
+        expect that z iz zero
         a_ + b_ // just for compiler, to get rid of message that these variables are not used
     }
 

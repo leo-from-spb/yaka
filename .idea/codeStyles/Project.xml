@@ -5,8 +5,8 @@
         <value>
           <package name="java.util" withSubpackages="false" static="false" />
           <package name="lb.yaka.utils" withSubpackages="false" static="false" />
-          <package name="lb.yaka.assertions" withSubpackages="false" static="false" />
-          <package name="kotlinx.android.synthetic" withSubpackages="true" static="false" />
+          <package name="lb.yaka.expectations" withSubpackages="false" static="false" />
+          <package name="lb.yaka.gears" withSubpackages="false" static="false" />
         </value>
       </option>
       <option name="SPACE_BEFORE_EXTEND_COLON" value="false" />

@@ -3,7 +3,7 @@
 package lb.yaka.gears
 
 
-object Assert {
+object Expect {
 
     infix fun<X: Any> that(x: X?): Subject<X> = Subject(x, defaultName, DirectController)
 
@@ -12,4 +12,4 @@ object Assert {
 }
 
 
-val assert = Assert
+val expect = Expect

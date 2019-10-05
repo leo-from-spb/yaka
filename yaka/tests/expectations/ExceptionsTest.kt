@@ -1,4 +1,4 @@
-package lb.yaka.assertions
+package lb.yaka.expectations
 
 import lb.yaka.AbstractUnitTest
 import lb.yaka.utils.*

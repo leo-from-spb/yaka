@@ -1,8 +1,7 @@
-package lb.yaka.assertions
+package lb.yaka.expectations
 
 import lb.yaka.AbstractUnitTest
-import lb.yaka.gears.assert
-import lb.yaka.gears.complies
+import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
 
 
@@ -17,7 +16,7 @@ class CompliesTest: AbstractUnitTest() {
 
     @Test
     fun basic() {
-        assert that phrase aka "The phrase" complies {
+        expect that phrase aka "The phrase" complies {
             this hasLength 20 .. 50
             this contains "München"
             this contains "Санкт-Петербург"
@@ -26,7 +25,7 @@ class CompliesTest: AbstractUnitTest() {
 
     @Test
     fun chain_success() {
-        assert that phrase aka "The phrase" complies {
+        expect that phrase aka "The phrase" complies {
             this hasLength 20 .. 50 contains "München"
             this hasLength 30 .. 40 contains "Санкт-Петербург"
         }
@@ -38,7 +37,7 @@ class CompliesTest: AbstractUnitTest() {
 
         expectException<AssertionError> {
 
-            assert that phrase aka "The phrase" complies {
+            expect that phrase aka "The phrase" complies {
                 this hasLength 10..100 hasLength 66..99 hasLength 77..88
             }
 

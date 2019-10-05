@@ -1,9 +1,6 @@
-package lb.yaka.assertions
+package lb.yaka.expectations
 
-import lb.yaka.gears.Fail
-import lb.yaka.gears.Product
-import lb.yaka.gears.Subject
-import lb.yaka.gears.handleValueAlteration
+import lb.yaka.gears.*
 import lb.yaka.utils.*
 import java.util.stream.IntStream
 
