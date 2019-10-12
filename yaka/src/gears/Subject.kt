@@ -1,5 +1,7 @@
 package lb.yaka.gears
 
+import kotlin.reflect.KProperty
+
 
 class Subject<out X: Any> (
 
@@ -14,6 +16,20 @@ class Subject<out X: Any> (
     internal fun<Y: Any> alter(y: Y?): Subject<Y> = Subject(y, name, controller)
 
     internal fun<Y: Any> alter(y: Y?, innerName: String): Subject<Y> = Subject(y, "$name: $innerName", controller)
+
+
+    fun<Y: Any> valueOf(innerName: String, expression: X.()->Y?): Subject<Y> {
+        val x: X = this.x ?: return skeleton // TODO process error instead
+        return alter(x.expression(), innerName)
+    }
+
+    fun<Y: Any> valueOf(property: (X)->KProperty<Y?>): Subject<Y> {
+        if (x == null) return skeleton  // TODO process error instead
+        val p = property(x)
+        val name = p.name
+        val value: Y? = p.getter.call()
+        return alter(value, name)
+    }
 
 }
 
