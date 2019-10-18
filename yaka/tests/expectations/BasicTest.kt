@@ -8,47 +8,73 @@ import java.math.BigInteger
 
 class BasicTest: AbstractUnitTest() {
 
+    data class Point (val x: Int, val y: Int) {
+        override fun toString(): String = "($x,$y)"
+    }
+
+
     @Test
-    fun struct_isNull() {
+    fun pair_isNull() {
         val x: Pair<Byte,Short>? = null
         expect that x iz Null
     }
 
     @Test
-    fun struct_isNotNull() {
+    fun pair_isNotNull() {
         val x: Pair<Int,Int>? = Pair(1,2)
         expect that x iz notNull
     }
 
+
     @Test
-    fun struct_equals() {
+    fun point_equals() {
+        val a = Point(1, 2)
+        val b = Point(1, 2)
+        expect that b equalsTo a
+    }
+
+    @Test
+    fun point_equals_neg() {
+        val a = Point(1, 2)
+        val b = Point(3, 4)
+        expectException<AssertionError> {
+            expect that b equalsTo a
+        } where message complies {
+            this contains "(3,4)"
+            this contains "(1,2)"
+        }
+    }
+
+
+    @Test
+    fun pair_equals() {
        val x = Pair(`10`, 100)
        val y = Pair(`10`, 100)
        expect that x equalsTo y
     }
 
     @Test
-    fun struct_notEquals() {
+    fun pair_notEquals() {
        val x = Pair(`10`, 100)
        val y = Pair(`20`, 200)
        expect that x notEqualsTo y
     }
 
     @Test
-    fun struct_same() {
+    fun pair_same() {
        val x = Pair(`10`, 100)
        expect that x sameAs x
     }
 
     @Test
-    fun struct_notSame() {
+    fun pair_notSame() {
         val x = Pair(`10`, 100)
         val y = Pair(`10`, 100)
         expect that x notSameAs y
     }
 
     @Test
-    fun struct_meetsPredicate() {
+    fun pair_meetsPredicate() {
         val x = Pair(13, 44)
         expect that x meets { it.first <= it.second }
     }

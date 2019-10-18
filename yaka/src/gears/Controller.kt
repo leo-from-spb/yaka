@@ -11,7 +11,7 @@ sealed class Controller {
         val result = subject.checkFunction()
         when (result) {
             is Success -> return subject
-            is Fail    -> { report(subject.name, expectationDescription, result.problem); return skeleton }
+            is Fail    -> { report(subject.x, subject.name, expectationDescription, result.problem); return skeleton }
         }
     }
 
@@ -22,11 +22,11 @@ sealed class Controller {
         when (result) {
             is Product -> return subject.alter(result.value)
             is Success -> throw RuntimeException("Unexpected state: returned class ${result.javaClass.simpleName} instead of Product<R>")
-            is Fail    -> { report(subject.name, expectationDescription, result.problem); return skeleton }
+            is Fail    -> { report(subject.x, subject.name, expectationDescription, result.problem); return skeleton }
         }
     }
 
-    internal abstract fun report(subjectName: String, expectationDescription: String, problemDescription: String)
+    internal abstract fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String)
 
 }
 
@@ -34,11 +34,12 @@ sealed class Controller {
 
 object DirectController : Controller() {
 
-    override fun report(subjectName: String, expectationDescription: String, problemDescription: String) {
+    override fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String) {
         val buff = StringBuilder()
         buff.append(subjectName).append(": expectation failed\n")
             .append("Expected: ").append(expectationDescription).append('\n')
-            .append("Actual:   ").append(problemDescription).append('\n')
+            .append("Actual:   ").append(subjectValue.toString()).append('\n')
+            .append("Problem:  ").append(problemDescription).append('\n')
         reportMessage(buff)
     }
 
@@ -55,8 +56,8 @@ class AggregatingController(private val origin: Controller) : Controller() {
 
     internal val hasProblems: Boolean get() = problems.isNotEmpty()
 
-    override fun report(subjectName: String, expectationDescription: String, problemDescription: String) {
-        problems += ProblemInfo(subjectName, expectationDescription, problemDescription)
+    override fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String) {
+        problems += ProblemInfo(subjectValue, subjectName, expectationDescription, problemDescription)
     }
 
     internal fun reportMulti(problems: Collection<ProblemInfo>) {
@@ -83,17 +84,18 @@ class AggregatingController(private val origin: Controller) : Controller() {
             }
             1 -> {
                 val p = problems.first()
-                origin.report(p.subjectName, p.expectationDescription, p.problemDescription)
+                origin.report(p.subjectValue, p.subjectName, p.expectationDescription, p.problemDescription)
             }
             else -> {
                 val buff = StringBuilder()
                 buff.append(subject.name).append(": $n expectations failed\n")
+                buff.append("Actual: ").append(subject.x.toString()).append('\n')
                 var k = 0
                 for (p in problems) {
                     k++
                     buff.append("\t---- ----- $k ---- -----\n")
                         .append("\tExpected: ").append(p.expectationDescription).append('\n')
-                        .append("\tActual:   ").append(p.problemDescription).append('\n')
+                        .append("\tProblem:  ").append(p.problemDescription).append('\n')
                 }
                 buff.append("\t---- ----- - ---- -----\n")
                 controller.reportMessage(buff)
@@ -112,13 +114,14 @@ class AggregatingController(private val origin: Controller) : Controller() {
 object Oblivion : Controller() {
     override fun <X : Any> handle(subject: Subject<X>, expectationDescription: String, checkFunction: CheckFunction<X>): Subject<X> = skeleton
     override fun <X: Any, Y: Any> handleAlteration(subject: Subject<X>, expectationDescription: String, checkFunction: CheckAlterFunction<X, Y>): Subject<Y> = skeleton
-    override fun report(subjectName: String, expectationDescription: String, problemDescription: String) {}
+    override fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String) {}
 }
 
 
 
 
-internal data class ProblemInfo (val subjectName: String, 
+internal data class ProblemInfo (val subjectValue: Any?,
+                                 val subjectName: String,
                                  val expectationDescription: String, 
                                  val problemDescription: String)
 
