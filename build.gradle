@@ -63,10 +63,21 @@ artifacts {
     archives sourcesJar
 }
 
+task preparePom(type: Copy) {
+    from file("yaka/aux/yaka.pom")
+    into file("out")
+    rename "yaka.pom", "yaka-${version}.pom"
+    filter { line -> line.replaceAll('SNAPSHOT',version) }
+}
 
 task jars(dependsOn: [assemble,testJar,sourcesJar]) {
 }
 
+task dist(dependsOn: [jars,preparePom], type: Copy) {
+    from "build/libs"
+    into "out"
+    include "*.jar"
+}
 
 test {
     useJUnitPlatform() {
