@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 // while the KT-30176 is not fixed
 @JvmName("izNull")
 infix fun<X: Any> Subject<X>.iz(@Suppress("unused_parameter") `null`: Null): Subject<X> =
-    handle("is null") {
+    handleSubject("is null") {
         if (x === null) Ok
         else Fail("is not null")
     }
@@ -23,7 +23,7 @@ infix fun<X: Any> Subject<X>.iz(@Suppress("unused_parameter") `null`: Null): Sub
 
 @JvmName("izNotNull")
 infix fun<X: Any> Subject<X>.iz(@Suppress("unused_parameter") notNull: NotNull): Subject<X> =
-    handle("is not null") {
+    handleSubject("is not null") {
         if (x !== null) Ok
         else NullFail
     }
@@ -37,14 +37,14 @@ object Null
 
 
 infix fun<X: Any> Subject<X>.equalsTo(expect: X): Subject<X> =
-        handle("equals to $expect") {
+        handleSubject("equals to $expect") {
             if (x == expect) Ok
             else Fail("doesn't equal")
         }
 
 
 infix fun <X: Any> Subject<X>.sameAs(expect: X): Subject<X> =
-    handle("the same object as $expect") {
+    handleSubject("the same object as $expect") {
         when {
             x === expect -> Ok
             x == expect  -> Fail("is not the same object (equals, but another reference)")
@@ -54,14 +54,14 @@ infix fun <X: Any> Subject<X>.sameAs(expect: X): Subject<X> =
 
 
 infix fun<X: Any> Subject<X>.notEqualsTo(omit: X): Subject<X> =
-    handle("doesn't equal to $omit") {
+    handleSubject("doesn't equal to $omit") {
         if (x != omit) Ok
         else Fail("equals to the non-expected value")
     }
 
 
 infix fun<X: Any> Subject<X>.notSameAs(omit: X): Subject<X> =
-    handle("is not the same object as $omit") {
+    handleSubject("is not the same object as $omit") {
         if (x !== omit) Ok
         else Fail("is same as the non-expected object")
     }

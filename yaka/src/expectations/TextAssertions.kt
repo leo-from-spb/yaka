@@ -20,37 +20,37 @@ typealias TextSubject = Subject<CharSequence>
 
 
 infix fun TextSubject.iz(marker: emptyOrNull): TextSubject =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isEmpty()) Ok
         else Fail("has ${it.length} characters")
     }
 
 infix fun TextSubject.iz(marker: empty): TextSubject =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isEmpty()) Ok
         else Fail("has ${it.length} characters")
     }
 
 infix fun TextSubject.iz(marker: blankOrNull): TextSubject =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isBlank()) Ok
         else Fail("has ${it.trim().length} characters (excluding trailing spaces)")
     }
 
 infix fun TextSubject.iz(marker: blank): TextSubject =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isBlank()) Ok
         else Fail("has ${it.trim().length} characters (excluding trailing spaces)")
     }
 
 infix fun TextSubject.iz(marker: notEmpty): TextSubject =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isNotEmpty()) Ok
         else Fail("is empty")
     }
 
 infix fun TextSubject.iz(marker: notBlank): TextSubject =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isNotBlank()) Ok
         else if (it.isNotEmpty()) Fail("is blank")
         else Fail("is empty")
@@ -139,7 +139,7 @@ infix fun TextSubject.hasLength(lengthRange: IntRange): TextSubject =
 object decimalNumber
 
 
-infix fun TextSubject.az(`_`: decimalNumber): Subject<Number> {
+infix fun TextSubject.az(@Suppress("unused_parameter") decimalNumber: decimalNumber): Subject<Number> {
     val number: Number? = this.x?.toNumberOrNull()
     return this.alter(number)
 }

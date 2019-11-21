@@ -46,17 +46,16 @@ infix fun <X: Any> Subject<X>.complies(block: Subject<X>.() -> Unit): Subject<X>
 
 
 
-fun <X: Any, S: Subject<X>> S.handle(marker: ExpectationMarker, function: CheckValueFunction<X>): S {
+fun <X: Any> Subject<X>.handleSubject(expectationDescription: String, checkFunction: CheckFunction<X>): Subject<X> {
+    return controller.handle(this, expectationDescription, checkFunction)
+}
+
+fun <X: Any, S: Subject<X>> S.handleValue(marker: ExpectationMarker, function: CheckValueFunction<X>): S {
     controller.handle(this, marker.description) {
         val x: X = this.x ?: return@handle if (marker.mandatory) NullFail else Ok
         return@handle function(x)
     }
     return this
-}
-
-
-fun <X: Any> Subject<X>.handle(expectationDescription: String, checkFunction: CheckFunction<X>): Subject<X> {
-    return controller.handle(this, expectationDescription, checkFunction)
 }
 
 fun <X: Any> Subject<X>.handleValue(expectationDescription: String, checkValueFunction: CheckValueFunction<X>): Subject<X> {

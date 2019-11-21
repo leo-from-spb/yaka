@@ -5,19 +5,19 @@ import lb.yaka.utils.*
 
 
 infix fun<E, C:Collection<E>> Subject<C>.iz(marker: emptyOrNull) =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isEmpty()) Ok
         else Fail("contains ${it.size} elements")
     }
 
 infix fun<E, C:Collection<E>> Subject<C>.iz(marker: empty) =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isEmpty()) Ok
         else Fail("contains ${it.size} elements")
     }
 
 infix fun<E, C:Collection<E>> Subject<C>.iz(marker: notEmpty) =
-    handle(marker) {
+    handleValue(marker) {
         if (it.isNotEmpty()) Ok
         else Fail("contains ${it.size} elements")
     }

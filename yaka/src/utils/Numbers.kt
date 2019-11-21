@@ -27,7 +27,7 @@ val Number.sign: Int
 
 fun CharSequence.toNumberOrNull(): Number? {
     val matcher = this match decimalNumberPattern ?: return null
-    val (gSing, gNumber, gMantissa, gFraction, gExp, gExpVal) = matcher.destructured
+    val (gSing, gNumber, gMantissa, gFraction, _, gExpVal) = matcher.destructured
     if (gFraction.isEmpty() && gExpVal.isEmpty()) {
         if (gMantissa.isEmpty()) return zeroByte
         val s = gSing + gMantissa
