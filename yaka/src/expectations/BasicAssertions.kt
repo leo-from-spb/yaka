@@ -90,3 +90,11 @@ infix fun<X: Any, Y: Any> Subject<X>.iz(klass: Class<Y>): Subject<Y> =
         if (y != null) return@handleAlteration Product(y)
         else return@handleAlteration Fail("actual class is ${x.javaClass.name}")
     }
+
+
+@JvmName("izBoolean")
+infix fun Subject<Boolean>.iz(expect: Boolean): Subject<Boolean> =
+    handleSubject("iz $expect") {
+        if (x == expect) Ok
+        else Fail("iz not $expect")
+    }

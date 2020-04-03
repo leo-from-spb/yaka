@@ -1,3 +1,5 @@
+@file:Suppress("SimplifyBooleanWithConstants")
+
 package lb.yaka.expectations
 
 import lb.yaka.AbstractUnitTest
@@ -102,6 +104,17 @@ class BasicTest: AbstractUnitTest() {
     fun value_javaClass_alteration() {
         val x: Any? = BigInteger("777")
         expect that x iz Number::class.java greaterThanOrEqualsTo 777
+    }
+
+
+    @Test
+    fun iz_true() {
+        expect that (1 > 0) iz true
+    }
+
+    @Test
+    fun iz_false() {
+        expect that (1 < 0) iz false
     }
 
 }

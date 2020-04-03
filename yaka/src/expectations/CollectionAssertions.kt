@@ -134,3 +134,30 @@ infix fun<E, C:Collection<E>> Subject<C>.allElementsMeet(predicate: NamedPredica
         else Fail("only $k of $n elements meets the specified predicate, the other ${n-k} don't")
     }
 
+
+
+
+@JvmName("izIterableEmptyOrNull")
+infix fun<E, I:Iterable<E>> Subject<I>.iz(marker: emptyOrNull) =
+    handleValue(marker) {
+        if (!it.iterator().hasNext()) Ok
+        else Fail("contains elements")
+    }
+
+@JvmName("izIterableEmpty")
+infix fun<E, I:Iterable<E>> Subject<I>.iz(marker: empty) =
+    handleValue(marker) {
+        if (!it.iterator().hasNext()) Ok
+        else Fail("contains elements")
+    }
+
+@JvmName("izIterableNotEmpty")
+infix fun<E, I:Iterable<E>> Subject<I>.iz(marker: notEmpty): Subject<Collection<E>> =
+    handleAlteration(marker.description) {
+        val x: I = this.x ?: return@handleAlteration NullFail
+        val collection: MutableCollection<E> = mutableListOf<E>()
+        collection.addAll(x)
+        if (collection.isNotEmpty()) Product(collection)
+        else Fail("is empty")
+    }
+

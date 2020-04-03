@@ -3,6 +3,7 @@ package lb.yaka.expectations
 import lb.yaka.AbstractUnitTest
 import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
+import java.util.Collections.singleton
 
 
 class CollectionTest: AbstractUnitTest() {
@@ -66,5 +67,28 @@ class CollectionTest: AbstractUnitTest() {
         expect that mySetOfCars containsExactly setOf("Legacy", "Outback", "Impreza", "Forester")
     }
 
+
+    @Test
+    fun `iterable is null`() {
+        val something: Iterable<Number>? = null
+        expect that something iz emptyOrNull
+    }
+
+    @Test
+    fun `iterable is empty`() {
+        val something: Iterable<Number>? = emptySet()
+        expect that something iz empty
+        expect that something iz emptyOrNull
+    }
+
+    @Test
+    fun `iterable is not empty`() {
+        val something1: Iterable<Number>? = singleton(33L)
+        val something2: Iterable<Number> = singleton(333L)
+        expect that something1 iz notEmpty
+        expect that something2 iz notEmpty 
+        expect that something1 iz notEmpty contains 33L
+        expect that something2 iz notEmpty contains 333L
+    }
 
 }
