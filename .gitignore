@@ -6,6 +6,7 @@
 .idea/ant.xml
 .idea/dataSources.local.xml
 .idea/$*
+projectFilesBackup
 out
 
 # Gradle stuff
