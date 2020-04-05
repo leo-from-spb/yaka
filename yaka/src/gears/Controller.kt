@@ -35,12 +35,8 @@ sealed class Controller {
 object DirectController : Controller() {
 
     override fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String) {
-        val buff = StringBuilder()
-        buff.append(subjectName).append(": expectation failed\n")
-            .append("Expected: ").append(expectationDescription).append('\n')
-            .append("Actual:   ").append(subjectValue.toString()).append('\n')
-            .append("Problem:  ").append(problemDescription).append('\n')
-        reportMessage(buff)
+        val message = prepareReportMessage(subjectName, expectationDescription, subjectValue, problemDescription)
+        reportMessage(message)
     }
 
     internal fun reportMessage(message: CharSequence) {

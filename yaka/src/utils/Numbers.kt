@@ -211,6 +211,20 @@ private fun unableToCompare(a: Number, b: Number): Nothing =
     throw IllegalArgumentException("Don't know how to compare ${a.javaClass.simpleName} with ${b.javaClass.simpleName}")
 
 
+val Int.width: Int
+    get() {
+        if (this <= 9) return 1
+        if (this <= 99) return 2
+        if (this <= 999) return 3
+        if (this <= 9999) return 4
+        if (this <= 99999) return 5
+        if (this <= 999999) return 6
+        if (this <= 9999999) return 7
+        if (this <= 99999999) return 8
+        if (this <= 999999999) return 9
+        return 10
+    }
+
 
 val zeroByte: Byte = 0.toByte()
 

@@ -1,6 +1,9 @@
 package lb.yaka.expectations
 
 import lb.yaka.gears.*
+import lb.yaka.gears.Describer.describe
+import lb.yaka.gears.Describer.describeElements
+import lb.yaka.gears.Describer.describeElementsWithIndices
 import lb.yaka.utils.*
 
 
@@ -41,7 +44,7 @@ infix fun<E, C:Collection<E>> Subject<C>.hasSizeIn(sizeRange: IntRange) =
 
 
 infix fun<E, C:Collection<E>> Subject<C>.contains(element: E) =
-    handleValue("contains element: $element") {
+    handleValue("contains element: ${describe(element)}") {
         when {
             it.contains(element) -> Ok
             it.isEmpty()         -> Fail("is empty")
@@ -50,7 +53,7 @@ infix fun<E, C:Collection<E>> Subject<C>.contains(element: E) =
     }
 
 infix fun<E, C:Collection<E>> Subject<C>.containsNot(element: E) =
-    handleValue("doesn't contain element: $element") {
+    handleValue("doesn't contain element: ${describe(element)}") {
         if (!it.contains(element)) Ok
         else Fail("contains the elements that must not contain")
     }
@@ -60,7 +63,8 @@ infix fun<E, C:Collection<E>> Subject<C>.contains(elements: Array<E>) =
     this.contains(elements.asList())
 
 infix fun<E, C:Collection<E>> Subject<C>.contains(elements: Collection<E>) =
-    handleValue("contains all the elements: ${elements.joinToString()}") {
+    if (elements.size == 1) this contains elements.first()!!
+    else handleValue("contains all the following elements:\n${describeElements(elements)}") {
         when {
             it.containsAll(elements) -> Ok
             it.isEmpty()             -> Fail("is empty")
@@ -73,7 +77,8 @@ infix fun<E, C:Collection<E>> Subject<C>.containsAnyOf(elements: Array<E>) =
     containsAnyOf(elements.asList())
 
 infix fun<E, C:Collection<E>> Subject<C>.containsAnyOf(elements: Collection<E>) =
-    handleValue("contains any of the elements: ${elements.joinToString()}") {
+    if (elements.size == 1) this contains elements.first()!!
+    else handleValue("contains any of the following elements:\n${describeElements(elements)}") {
         when {
             it.hasCommonElementsWith(elements) -> Ok
             it.isEmpty()                       -> Fail("is empty")
@@ -86,7 +91,8 @@ infix fun<E, C:Collection<E>> Subject<C>.containsNoneOf(elements: Array<E>) =
     containsNoneOf(elements.asList())
 
 infix fun<E, C:Collection<E>> Subject<C>.containsNoneOf(elements: Collection<E>) =
-    handleValue("contains none of the elements: ${elements.joinToString()}") {
+    if (elements.size == 1) this containsNot elements.first()!!
+    else handleValue("contains none of the following elements:\n${describeElements(elements)}") {
         if (!it.hasCommonElementsWith(elements)) Ok
         else /* TODO analyze */ Fail("contains some of elements that must not contain")
     }
@@ -95,8 +101,23 @@ infix fun<E, C:Collection<E>> Subject<C>.containsNoneOf(elements: Collection<E>)
 infix fun<E, C:Collection<E>> Subject<C>.containsExactly(elements: Array<E>) =
     containsExactly(elements.asList())
 
-infix fun<E, C:Collection<E>> Subject<C>.containsExactly(elements: Collection<E>) =
-    handleValue("contains all the elements: ${elements.joinToString()}") {
+infix fun<E, C:Collection<E>> Subject<C>.containsExactly(elements: List<E>) =
+    handleValue("contains exactly the following elements:\n${describeElementsWithIndices(elements)}") {
+        val m = elements.size
+        val n = it.size
+        if (m == 0 && n == 0) return@handleValue Ok
+        if (m == 0) return@handleValue Fail("is empty")
+
+        // a temporary implementation
+        // TODO re-implement
+        if (m != n) return@handleValue Fail("contains $n elements when expect $m ones") // TODO
+        val all = it.containsAll(elements)
+        if (all) return@handleValue Ok
+        return@handleValue Fail("contains not all expected elements") // TODO
+    }
+
+infix fun<E, C:Collection<E>> Subject<C>.containsExactly(elements: Set<E>) =
+    handleValue("contains exactly the following elements:\n${describeElements(elements)}") {
         val m = elements.size
         val n = it.size
         if (m == 0 && n == 0) return@handleValue Ok

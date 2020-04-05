@@ -2,6 +2,7 @@ package lb.yaka.expectations
 
 import lb.yaka.Yaka
 import lb.yaka.gears.*
+import lb.yaka.gears.Describer.describe
 import lb.yaka.utils.*
 import kotlin.reflect.KClass
 
@@ -31,14 +32,14 @@ infix fun<X: Any> Subject<X>.iz(notNull: NotNull): Subject<X> =
 
 
 infix fun<X: Any> Subject<X>.equalsTo(expect: X): Subject<X> =
-        handleSubject("equals to $expect") {
+        handleSubject("equals to ${describe(expect)}") {
             if (x == expect) Ok
             else Fail("doesn't equal")
         }
 
 
 infix fun <X: Any> Subject<X>.sameAs(expect: X): Subject<X> =
-    handleSubject("the same object as $expect") {
+    handleSubject("the same object as ${describe(expect)}") {
         when {
             x === expect -> Ok
             x == expect  -> Fail("is not the same object (equals, but another reference)")
@@ -48,14 +49,14 @@ infix fun <X: Any> Subject<X>.sameAs(expect: X): Subject<X> =
 
 
 infix fun<X: Any> Subject<X>.notEqualsTo(omit: X): Subject<X> =
-    handleSubject("doesn't equal to $omit") {
+    handleSubject("doesn't equal to ${describe(omit)}") {
         if (x != omit) Ok
         else Fail("equals to the non-expected value")
     }
 
 
 infix fun<X: Any> Subject<X>.notSameAs(omit: X): Subject<X> =
-    handleSubject("is not the same object as $omit") {
+    handleSubject("is not the same object as ${describe(omit)}") {
         if (x !== omit) Ok
         else Fail("is same as the non-expected object")
     }

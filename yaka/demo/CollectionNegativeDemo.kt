@@ -3,9 +3,15 @@ package lb.yaka.demo
 import lb.yaka.expectations.*
 import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
+import java.util.*
 
 
-class CollectionNegativeDemo {
+class CollectionNegativeDemo : DemoTest {
+
+    companion object {
+        val list7: List<String> = listOf("first", "second", "third", "fourth", "fifth", "sixth", "seventh")
+    }
+
 
     @Test
     fun `array contains element`() {
@@ -36,5 +42,28 @@ class CollectionNegativeDemo {
 
     }
 
+
+    @Test
+    fun `set contains several elements`() {
+
+        val set7 = TreeSet(list7)
+        expect that set7 contains setOf("second", "fifth", "ninth")
+
+    }
+
+    @Test
+    fun `list contains several elements`() {
+
+        expect that list7 contains listOf("second", "fifth", "ninth")
+
+    }
+
+
+
+    @Test
+    fun `char array contains chars`() {
+        val ca = charArrayOf('\u0000', '\u0001', '\b', '\t', '\r', '\n', '\u001F', ' ', 'A', '∛', 'ℬ')
+        expect that ca contains setOf('B', '\t', 'Ω')
+    }
 
 }
