@@ -7,14 +7,6 @@ import lb.yaka.utils.*
 
 
 
-object blankOrNull : ExpectationMarker(false, "is blank or null")
-
-object blank : ExpectationMarker(true, "is blank")
-
-object notBlank : ExpectationMarker(true, "is not blank blank")
-
-
-
 typealias TextSubject = Subject<CharSequence>
 
 

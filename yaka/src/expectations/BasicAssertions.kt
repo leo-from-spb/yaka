@@ -15,26 +15,19 @@ import kotlin.reflect.KClass
 
 // while the KT-30176 is not fixed
 @JvmName("izNull")
-infix fun<X: Any> Subject<X>.iz(@Suppress("unused_parameter") `null`: Null): Subject<X> =
-    handleSubject("is null") {
+infix fun<X: Any> Subject<X>.iz(`null`: Null): Subject<X> =
+    handleSubject(`null`.description) {
         if (x === null) Ok
         else Fail("is not null")
     }
 
 
 @JvmName("izNotNull")
-infix fun<X: Any> Subject<X>.iz(@Suppress("unused_parameter") notNull: NotNull): Subject<X> =
-    handleSubject("is not null") {
+infix fun<X: Any> Subject<X>.iz(notNull: NotNull): Subject<X> =
+    handleSubject(notNull.description) {
         if (x !== null) Ok
         else NullFail
     }
-
-
-@Suppress("ClassName")
-object NotNull
-val notNull = NotNull
-
-object Null
 
 
 infix fun<X: Any> Subject<X>.equalsTo(expect: X): Subject<X> =

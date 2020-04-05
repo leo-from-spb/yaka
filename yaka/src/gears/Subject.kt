@@ -61,7 +61,7 @@ fun <X: Any> Subject<X>.handleSubject(expectationDescription: String, checkFunct
     return controller.handle(this, expectationDescription, checkFunction)
 }
 
-fun <X: Any, S: Subject<X>> S.handleValue(marker: ExpectationMarker, function: CheckValueFunction<X>): S {
+fun <X: Any, S: Subject<X>> S.handleValue(marker: BasicExpectationMarker, function: CheckValueFunction<X>): S {
     controller.handle(this, marker.description) {
         val x: X = this.x ?: return@handle if (marker.mandatory) NullFail else Ok
         return@handle function(x)
