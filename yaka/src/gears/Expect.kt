@@ -2,6 +2,12 @@
 
 package lb.yaka.gears
 
+import java.util.stream.DoubleStream
+import java.util.stream.IntStream
+import java.util.stream.LongStream
+import java.util.stream.Stream
+import kotlin.streams.toList
+
 
 object Expect {
 
@@ -15,6 +21,14 @@ object Expect {
     infix fun that(x: LongArray?):    Subject<List<Long>> =    Subject(x?.asList(), "Array of long",    DirectController)
     infix fun that(x: FloatArray?):   Subject<List<Float>> =   Subject(x?.asList(), "Array of floats",  DirectController)
     infix fun that(x: DoubleArray?):  Subject<List<Double>> =  Subject(x?.asList(), "Array of doubles", DirectController)
+
+    infix fun<E> that(x: Stream<E>?): Subject<List<E>> =      Subject(x?.toList(), "Stream", DirectController)
+
+    infix fun that(x: IntStream?):    Subject<List<Int>> =    Subject(x?.toList(), "Stream of primitive int", DirectController)
+    infix fun that(x: LongStream?):   Subject<List<Long>> =   Subject(x?.toList(), "Stream of primitive long", DirectController)
+    infix fun that(x: DoubleStream?): Subject<List<Double>> = Subject(x?.toList(), "Stream of primitive double", DirectController)
+
+    infix fun<E> that(x: Sequence<E>?): Subject<List<E>> =    Subject(x?.toList(), "Sequence", DirectController)
 
 }
 

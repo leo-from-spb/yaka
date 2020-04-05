@@ -4,6 +4,7 @@ import lb.yaka.AbstractUnitTest
 import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
 import java.util.Collections.singleton
+import java.util.stream.Stream
 
 
 class CollectionTest: AbstractUnitTest() {
@@ -66,6 +67,83 @@ class CollectionTest: AbstractUnitTest() {
         expect that myList4S containsExactly arrayOf("Drei", "Zwei", "Einz", "Vier")
         expect that mySetOfCars containsExactly setOf("Legacy", "Outback", "Impreza", "Forester")
     }
+
+
+
+    @Test
+    fun `stream is null`() {
+        val stream: Stream<Any>? = null
+        expect that stream iz emptyOrNull iz Null
+    }
+
+    @Test
+    fun `stream is empty`() {
+        val stream: Stream<Any>? = Stream.empty()
+        expect that stream iz emptyOrNull iz empty
+    }
+
+    @Test
+    fun `stream is not empty`() {
+        val stream: Stream<Any>? = Stream.of('A', "Text", 3L)
+        expect that stream iz notEmpty
+    }
+
+    @Test
+    fun `stream has size`() {
+        val stream: Stream<Any>? = Stream.of('A', "Text", 3L)
+        expect that stream hasSize 3
+    }
+
+    @Test
+    fun `stream contains an element`() {
+        val stream: Stream<Number>? = Stream.of(10, 1000L)
+        expect that stream contains 10 contains 1000L
+    }
+
+    @Test
+    fun `stream contains several elements`() {
+        val stream: Stream<Number>? = Stream.of(10.0, 1000L)
+        expect that stream contains arrayOf(1000L, 10.0) 
+    }
+
+
+
+    @Test
+    fun `sequence is null`() {
+        val sequence: Sequence<Any>? = null
+        expect that sequence iz emptyOrNull iz Null
+    }
+
+    @Test
+    fun `sequence is empty`() {
+        val sequence: Sequence<Any>? = emptySequence()
+        expect that sequence iz emptyOrNull iz empty
+    }
+
+    @Test
+    fun `sequence is not empty`() {
+        val sequence: Sequence<Any>? = sequenceOf('A', "Text", 3L)
+        expect that sequence iz notEmpty
+    }
+
+    @Test
+    fun `sequence has size`() {
+        val sequence: Sequence<Any>? = sequenceOf('A', "Text", 3L)
+        expect that sequence hasSize 3
+    }
+
+    @Test
+    fun `sequence contains an element`() {
+        val sequence: Sequence<Number>? = sequenceOf<Number>(10, 1000L)
+        expect that sequence contains 10 contains 1000L
+    }
+
+    @Test
+    fun `sequence contains several elements`() {
+        val sequence: Sequence<Number>? = sequenceOf(10.0, 1000L)
+        expect that sequence contains arrayOf(1000L, 10.0)
+    }
+
 
 
     @Test
