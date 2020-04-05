@@ -117,4 +117,13 @@ class BasicTest: AbstractUnitTest() {
         expect that (1 < 0) iz false
     }
 
+
+    @Test
+    fun failNull_workaround() {
+        val x: Any? = null
+        expectException(AssertionError::class) {
+            x ?: failNull("my_variable")
+        } where message contains "my_variable"
+    }
+
 }

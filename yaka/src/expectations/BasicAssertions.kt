@@ -1,5 +1,6 @@
 package lb.yaka.expectations
 
+import lb.yaka.Yaka
 import lb.yaka.gears.*
 import lb.yaka.utils.*
 import kotlin.reflect.KClass
@@ -98,3 +99,12 @@ infix fun Subject<Boolean>.iz(expect: Boolean): Subject<Boolean> =
         if (x == expect) Ok
         else Fail("iz not $expect")
     }
+
+
+/**
+ * Special function that is (ugly) workaround
+ * while [KT-27261](https://youtrack.jetbrains.com/issue/KT-27261) is not fixed.
+ */
+fun failNull(entityName: String = "Value"): Nothing {
+    Yaka.fail("$entityName is null when expected not null")
+}
