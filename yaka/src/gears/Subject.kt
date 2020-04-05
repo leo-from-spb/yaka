@@ -1,5 +1,6 @@
 package lb.yaka.gears
 
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 
@@ -31,6 +32,16 @@ class Subject<out X: Any> (
         return alter(value, name)
     }
 
+}
+
+
+fun<E, C: Collection<E>> subjectOf(collection: C?, containerName: String, elementClass: KClass<*>): Subject<C> {
+    val elementClassName = elementClass.simpleName ?: "unnamed type"
+    return subjectOf(collection, containerName, elementClassName)
+}
+
+fun<E, C: Collection<E>> subjectOf(collection: C?, containerName: String, elementClassName: String): Subject<C> {
+    return Subject(collection, "$containerName of $elementClassName", DirectController)
 }
 
 
@@ -80,9 +91,6 @@ fun <X: Any, Y: Any> Subject<X>.handleValueAlteration(expectationDescription: St
 
 infix fun<X: Any> X?.aka(name: String): Subject<X> = Subject(this, name, DirectController)
 
-
-
-const val defaultName: String = "Actual value"
 
 
 typealias CheckFunction<X> = Subject<X>.() -> Result<Any>

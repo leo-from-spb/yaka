@@ -11,24 +11,26 @@ import kotlin.streams.toList
 
 object Expect {
 
-    infix fun<X: Any> that(x: X?): Subject<X> = Subject(x, defaultName, DirectController)
+    inline infix fun<reified X: Any> that(x: X?): Subject<X> = Subject(x, X::class.simpleName.toString(), DirectController)
 
-    infix fun<E> that(x: Array<E>?): Subject<List<E>> = Subject(x?.asList(), "Array", DirectController)
+    inline infix fun<reified E> that(x: Array<E>?):      Subject<List<E>>       = subjectOf(x?.asList(), "Array",      E::class)
+    inline infix fun<reified E> that(x: Collection<E>?): Subject<Collection<E>> = subjectOf(x,           "Collection", E::class)
+    inline infix fun<reified E> that(x: Set<E>?):        Subject<Collection<E>> = subjectOf(x,           "Set",        E::class)
+    inline infix fun<reified E> that(x: List<E>?):       Subject<Collection<E>> = subjectOf(x,           "List",       E::class)
+    inline infix fun<reified E> that(x: Stream<E>?):     Subject<List<E>>       = subjectOf(x?.toList(), "Stream",     E::class)
+    inline infix fun<reified E> that(x: Sequence<E>?):   Subject<List<E>>       = subjectOf(x?.toList(), "Sequence",   E::class)
 
-    infix fun that(x: ByteArray?):    Subject<List<Byte>> =    Subject(x?.asList(), "Array of bytes",   DirectController)
-    infix fun that(x: ShortArray?):   Subject<List<Short>> =   Subject(x?.asList(), "Array of shorts",  DirectController)
-    infix fun that(x: IntArray?):     Subject<List<Int>> =     Subject(x?.asList(), "Array of ints",    DirectController)
-    infix fun that(x: LongArray?):    Subject<List<Long>> =    Subject(x?.asList(), "Array of long",    DirectController)
-    infix fun that(x: FloatArray?):   Subject<List<Float>> =   Subject(x?.asList(), "Array of floats",  DirectController)
-    infix fun that(x: DoubleArray?):  Subject<List<Double>> =  Subject(x?.asList(), "Array of doubles", DirectController)
+    infix fun that(x: CharArray?):    Subject<List<Char>>   = subjectOf(x?.asList(), "Array", "char"  )
+    infix fun that(x: ByteArray?):    Subject<List<Byte>>   = subjectOf(x?.asList(), "Array", "byte"  )
+    infix fun that(x: ShortArray?):   Subject<List<Short>>  = subjectOf(x?.asList(), "Array", "short" )
+    infix fun that(x: IntArray?):     Subject<List<Int>>    = subjectOf(x?.asList(), "Array", "int"   )
+    infix fun that(x: LongArray?):    Subject<List<Long>>   = subjectOf(x?.asList(), "Array", "lon"   )
+    infix fun that(x: FloatArray?):   Subject<List<Float>>  = subjectOf(x?.asList(), "Array", "float" )
+    infix fun that(x: DoubleArray?):  Subject<List<Double>> = subjectOf(x?.asList(), "Array", "double")
 
-    infix fun<E> that(x: Stream<E>?): Subject<List<E>> =      Subject(x?.toList(), "Stream", DirectController)
-
-    infix fun that(x: IntStream?):    Subject<List<Int>> =    Subject(x?.toList(), "Stream of primitive int", DirectController)
-    infix fun that(x: LongStream?):   Subject<List<Long>> =   Subject(x?.toList(), "Stream of primitive long", DirectController)
-    infix fun that(x: DoubleStream?): Subject<List<Double>> = Subject(x?.toList(), "Stream of primitive double", DirectController)
-
-    infix fun<E> that(x: Sequence<E>?): Subject<List<E>> =    Subject(x?.toList(), "Sequence", DirectController)
+    infix fun that(x: IntStream?):    Subject<List<Int>>    = subjectOf(x?.toList(), "Stream", "int"   )
+    infix fun that(x: LongStream?):   Subject<List<Long>>   = subjectOf(x?.toList(), "Stream", "long"  )
+    infix fun that(x: DoubleStream?): Subject<List<Double>> = subjectOf(x?.toList(), "Stream", "double")
 
 }
 
