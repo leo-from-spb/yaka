@@ -63,7 +63,7 @@ artifacts {
 }
 
 task preparePom(type: Copy) {
-    from file("yaka/aux/yaka.pom")
+    from file("yaka/odds/yaka.pom")
     into file("out")
     rename "yaka.pom", "yaka-${version}.pom"
     filter { line -> line.replaceAll('SNAPSHOT',version) }

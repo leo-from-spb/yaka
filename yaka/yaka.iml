@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="lb.yaka" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="lb.yaka" />
       <sourceFolder url="file://$MODULE_DIR$/demo" isTestSource="true" packagePrefix="lb.yaka.demo" />
-      <excludeFolder url="file://$MODULE_DIR$/aux" />
+      <excludeFolder url="file://$MODULE_DIR$/odds" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
