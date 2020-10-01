@@ -22,23 +22,25 @@ infix fun<E, C:Collection<E>> Subject<C>.iz(marker: empty) =
 infix fun<E, C:Collection<E>> Subject<C>.iz(marker: notEmpty) =
     handleValue(marker) {
         if (it.isNotEmpty()) Ok
-        else Fail("contains ${it.size} elements")
+        else Fail("is empty")
     }
 
 
 infix fun<E, C:Collection<E>> Subject<C>.hasSize(size: Int) =
     handleValue("has size exactly $size") {
-        if (it.size == size) Ok
-        else Fail("has size ${it.size}")
+        val theSize = it.size
+        if (theSize == size) Ok
+        else Fail("has size $theSize")
     }
 
 infix fun<E, C:Collection<E>> Subject<C>.hasSizeIn(sizeRange: IntRange) =
     handleValue("has size in range $sizeRange") {
+        val theSize = it.size
         when {
-            it.size in sizeRange             -> Ok
-            it.size < sizeRange.start        -> Fail("has size ${it.size} (too few)")
-            it.size > sizeRange.endInclusive -> Fail("has size ${it.size} (too many)")
-            else                             -> Fail("has size ${it.size}")
+            theSize in sizeRange             -> Ok
+            theSize < sizeRange.start        -> Fail("has size $theSize (too few)")
+            theSize > sizeRange.endInclusive -> Fail("has size $theSize (too many)")
+            else                             -> Fail("has size $theSize")
         }
     }
 
