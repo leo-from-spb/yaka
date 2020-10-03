@@ -126,4 +126,34 @@ class BasicTest: AbstractUnitTest() {
         } where message contains "my_variable"
     }
 
+
+    @Test
+    fun where_toString_basic() {
+        val p = Point(26, 42)
+        expect that p where toString contains "26"
+        expect that p where toString contains "42"
+    }
+
+    @Test
+    fun where_toString_complies() {
+        val p = Point(26, 42)
+        expect that p where toString complies {
+            this contains "26"
+            this contains "42"
+        }
+    }
+
+    @Test
+    fun toStringEqualsTo_basic() {
+        val num: Number = java.lang.Long(123456789L)
+        expect that num toStringEqualsTo "123456789"
+    }
+
+    @Test
+    fun toStringContains_basic() {
+        val num: Number = java.lang.Long(123456789L)
+        expect that num toStringContains "2345678"
+    }
+
+
 }

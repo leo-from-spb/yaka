@@ -95,6 +95,30 @@ infix fun Subject<Boolean>.iz(expect: Boolean): Subject<Boolean> =
     }
 
 
+infix fun<X: Any> Subject<X>.toStringEqualsTo(expect: String): Subject<X> =
+    handleValue("""toString() equals to "$expect"""") {
+        val s = it.toString()
+        if (s == expect) Ok
+        else Fail("toString() doesn't equal to the expected value")
+    }
+
+infix fun<X: Any> Subject<X>.toStringContains(substr: String): Subject<X> =
+    handleValue("""toString() contains "$substr"""") {
+        val s = it.toString()
+        if (s.contains(substr)) Ok
+        else Fail("toString() doesn't contain the expected substring")
+    }
+
+
+
+
+object toString: PropertyMarker("toString")
+
+
+infix fun<X: Any> Subject<X>.where(marker: toString): Subject<String> = alter(x?.toString(), marker.propertyName)
+
+
+
 /**
  * Special function that is (ugly) workaround
  * while [KT-27261](https://youtrack.jetbrains.com/issue/KT-27261) is not fixed.
