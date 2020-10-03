@@ -2,6 +2,7 @@
 
 package lb.yaka.gears
 
+import java.util.*
 import java.util.stream.DoubleStream
 import java.util.stream.IntStream
 import java.util.stream.LongStream
@@ -13,12 +14,14 @@ object Expect {
 
     inline infix fun<reified X: Any> that(x: X?): Subject<X> = Subject(x, X::class.simpleName.toString(), DirectController)
 
-    inline infix fun<reified E> that(x: Array<E>?):      Subject<List<E>>       = subjectOf(x?.asList(), "Array",      E::class)
-    inline infix fun<reified E> that(x: Collection<E>?): Subject<Collection<E>> = subjectOf(x,           "Collection", E::class)
-    inline infix fun<reified E> that(x: Set<E>?):        Subject<Collection<E>> = subjectOf(x,           "Set",        E::class)
-    inline infix fun<reified E> that(x: List<E>?):       Subject<Collection<E>> = subjectOf(x,           "List",       E::class)
-    inline infix fun<reified E> that(x: Stream<E>?):     Subject<List<E>>       = subjectOf(x?.toList(), "Stream",     E::class)
-    inline infix fun<reified E> that(x: Sequence<E>?):   Subject<List<E>>       = subjectOf(x?.toList(), "Sequence",   E::class)
+    inline infix fun<reified E> that(x: Array<E>?):        Subject<List<E>>          = subjectOf(x?.asList(), "Array",        E::class)
+    inline infix fun<reified E> that(x: List<E>?):         Subject<List<E>>          = subjectOf(x,           "List",         E::class)
+    inline infix fun<reified E> that(x: NavigableSet<E>?): Subject<NavigableSet<E>>  = subjectOf(x,           "NavigableSet", E::class)
+    inline infix fun<reified E> that(x: SortedSet<E>?):    Subject<SortedSet<E>>     = subjectOf(x,           "SortedSet",    E::class)
+    inline infix fun<reified E> that(x: Set<E>?):          Subject<Set<E>>           = subjectOf(x,           "Set",          E::class)
+    inline infix fun<reified E> that(x: Collection<E>?):   Subject<Collection<E>>    = subjectOf(x,           "Collection",   E::class)
+    inline infix fun<reified E> that(x: Stream<E>?):       Subject<List<E>>          = subjectOf(x?.toList(), "Stream",       E::class)
+    inline infix fun<reified E> that(x: Sequence<E>?):     Subject<List<E>>          = subjectOf(x?.toList(), "Sequence",     E::class)
 
     infix fun that(x: CharArray?):    Subject<List<Char>>   = subjectOf(x?.asList(), "Array", "char"  )
     infix fun that(x: ByteArray?):    Subject<List<Byte>>   = subjectOf(x?.asList(), "Array", "byte"  )

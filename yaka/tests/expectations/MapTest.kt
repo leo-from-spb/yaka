@@ -22,6 +22,9 @@ class MapTest: AbstractUnitTest() {
             `9` to "nine"
         )
 
+    private val digitsTree: TreeMap<Byte, String> =
+        TreeMap<Byte, String>().apply { putAll(digits) }
+
     private val properties: Properties =
         Properties().apply {
             setProperty("one", "1")
@@ -82,19 +85,40 @@ class MapTest: AbstractUnitTest() {
 
 
     @Test
-    fun `keys contains digits`() {
+    fun `navigable key at 3`() {
+        expect that digitsTree where keys at 3 equalsTo `4` // because the index starts with zero
+    }
+
+    @Test
+    fun `navigable entry at 6`() {
+        expect that digitsTree where entries at 6 equalsTo (`7` to "seven")
+    }
+
+    @Test
+    fun `navigable keys contains digits`() {
+        expect that digitsTree where keys contains `5`
+        expect that digitsTree where keys contains arrayOf(`5`, `7`)
+    }
+
+    @Test
+    fun `navigable entries contains a pair`() {
+        expect that digitsTree where entries contains (`7` to "seven")
+    }
+
+    @Test
+    fun `regular keys contains digits`() {
         expect that digits where keys contains `5`
         expect that digits where keys contains arrayOf(`5`, `7`)
     }
 
     @Test
-    fun `values contains words`() {
+    fun `regular values contains words`() {
         expect that digits where values contains "five"
         expect that digits where values contains arrayOf("seven", "eight")
     }
 
     @Test
-    fun `entries contains a pair`() {
+    fun `regular entries contains a pair`() {
         expect that digits where entries contains (`7` to "seven")
     }
 

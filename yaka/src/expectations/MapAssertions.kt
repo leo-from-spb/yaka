@@ -1,6 +1,8 @@
 package lb.yaka.expectations
 
 import lb.yaka.gears.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 infix fun<K, V, D:Map<out K, V>> Subject<D>.iz(marker: emptyOrNull) =
@@ -46,8 +48,19 @@ object values: PropertyMarker("values")
 object entries: PropertyMarker("entries")
 
 
+@JvmName("navigableMapKeys")
+infix fun<K> Subject<NavigableMap<K,*>>.where(marker: keys): Subject<NavigableSet<K>> = alter(x?.navigableKeySet(), marker.propertyName)
+
+@JvmName("navigableMapEntries")
+infix fun<K,V> Subject<NavigableMap<K,V>>.where(marker: entries): Subject<List<Pair<K,V>>> = alter(x?.entries?.map{it.toPair()}, marker.propertyName)
+
+@JvmName("regularMapKeys")
 infix fun<K> Subject<Map<K,*>>.where(marker: keys): Subject<Set<K>> = alter(x?.keys, marker.propertyName)
+
+@JvmName("regularMapValues")
 infix fun<V> Subject<Map<*,V>>.where(marker: values): Subject<Collection<V>> = alter(x?.values, marker.propertyName)
+
+@JvmName("regularMapEntries")
 infix fun<K,V> Subject<Map<K,V>>.where(marker: entries): Subject<Collection<Pair<K,V>>> = alter(x?.entries?.map{it.toPair()}, marker.propertyName)
 
 

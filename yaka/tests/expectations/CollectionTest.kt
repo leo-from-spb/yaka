@@ -3,6 +3,7 @@ package lb.yaka.expectations
 import lb.yaka.AbstractUnitTest
 import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
+import java.util.*
 import java.util.Collections.singleton
 import java.util.stream.Stream
 
@@ -171,20 +172,36 @@ class CollectionTest: AbstractUnitTest() {
 
 
 
-    private data class Thing(val name: String, val color: String)
+    private data class Thing(val name: String, val color: String) : Comparable<Thing> {
+        override fun compareTo(other: Thing): Int = this.name.compareTo(other.name)
+    }
 
-    private val things: Collection<Thing> = setOf(
-        Thing("Kettle", "green"),
-        Thing("Pot", "black"),
-        Thing("Spoon", "silver")
-    )
 
+    private val theKettle = Thing("Kettle", "green")
+    private val thePot    = Thing("Pot",    "black")
+    private val theSpoon  = Thing("Spoon",  "silver")
+
+    private val thingsList: List<Thing> = listOf(theKettle, thePot, theSpoon)
+    private val thingsSet: SortedSet<Thing> = sortedSetOf(theKettle, thePot, theSpoon)
 
 
     @Test
+    fun `list at`() {
+        expect that thingsList at 0 sameAs theKettle
+        expect that thingsList at 2 sameAs theSpoon
+    }
+
+    @Test
+    fun `sorted set at`() {
+        expect that thingsSet at 0 sameAs theKettle
+        expect that thingsSet at 1 sameAs thePot
+        expect that thingsSet at 2 sameAs theSpoon
+    }
+
+    @Test
     fun `collection items`() {
-        expect that things items Thing::name allElementsMeet { it.length > 2 }
-        expect that things items { color } allElementsMeet { it.length >= 5 }
+        expect that thingsList items Thing::name allElementsMeet { it.length > 2 }
+        expect that thingsList items { color } allElementsMeet { it.length >= 5 }
     }
 
 

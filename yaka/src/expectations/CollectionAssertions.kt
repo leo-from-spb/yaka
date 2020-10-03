@@ -5,6 +5,8 @@ import lb.yaka.gears.Describer.describe
 import lb.yaka.gears.Describer.describeElements
 import lb.yaka.gears.Describer.describeElementsWithIndices
 import lb.yaka.utils.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 infix fun<E, C:Collection<E>> Subject<C>.iz(marker: emptyOrNull) =
@@ -182,6 +184,34 @@ infix fun<E, I:Iterable<E>> Subject<I>.iz(marker: notEmpty): Subject<Collection<
         collection.addAll(x)
         if (collection.isNotEmpty()) Product(collection)
         else Fail("is empty")
+    }
+
+
+
+
+@JvmName("listElementAt")
+infix fun<E:Any, L:List<E>> Subject<L>.at(index: Int): Subject<E> =
+    handleAlteration("at $index") {
+        val list: L = this.x ?: return@handleAlteration NullFail
+        if (list.isEmpty()) Fail("is empty")
+        val n = list.size
+        if (index >= n) Fail("contains too few ($n) elements")
+        val x: E = list[index]
+        Product(x)
+    }
+
+
+@JvmName("sortedElementAt")
+infix fun<E:Any, SS:SortedSet<E>> Subject<SS>.at(index: Int): Subject<E> =
+    handleAlteration("at $index") {
+        val set: SS = this.x ?: return@handleAlteration NullFail
+        if (set.isEmpty()) Fail("is empty")
+        val n = set.size
+        if (index >= n) Fail("contains too few ($n) elements")
+        val it = set.iterator()
+        for (i in 1 .. index) it.next() // skip index elements
+        val x = it.next()
+        Product(x)
     }
 
 
