@@ -22,6 +22,7 @@ object Expect {
     inline infix fun<reified E> that(x: Collection<E>?):   Subject<Collection<E>>    = subjectOf(x,           "Collection",   E::class)
     inline infix fun<reified E> that(x: Stream<E>?):       Subject<List<E>>          = subjectOf(x?.toList(), "Stream",       E::class)
     inline infix fun<reified E> that(x: Sequence<E>?):     Subject<List<E>>          = subjectOf(x?.toList(), "Sequence",     E::class)
+    inline infix fun<reified E> that(x: Iterable<E>?):     Subject<List<E>>          = subjectOf(x?.toList(), "Iterable",     E::class)
 
     infix fun that(x: CharArray?):    Subject<List<Char>>   = subjectOf(x?.asList(), "Array", "char"  )
     infix fun that(x: ByteArray?):    Subject<List<Byte>>   = subjectOf(x?.asList(), "Array", "byte"  )

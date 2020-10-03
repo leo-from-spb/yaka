@@ -170,7 +170,13 @@ class CollectionTest: AbstractUnitTest() {
         expect that something2 iz notEmpty contains 333L
     }
 
+    @Test
+    fun `iterable size`() {
+        val iterable: Iterable<CharSequence>? = mySetOfCars
+        expect that iterable hasSize 4
+    }
 
+    
 
     private data class Thing(val name: String, val color: String) : Comparable<Thing> {
         override fun compareTo(other: Thing): Int = this.name.compareTo(other.name)
