@@ -2,6 +2,7 @@ package lb.yaka.gears
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import kotlin.reflect.KProperty1
 
 
 class Subject<out X: Any> (
@@ -19,12 +20,28 @@ class Subject<out X: Any> (
     internal fun<Y: Any> alter(y: Y?, innerName: String): Subject<Y> = Subject(y, "$name: $innerName", controller)
 
 
-    fun<Y: Any> valueOf(innerName: String, expression: X.()->Y?): Subject<Y> {
+    infix fun<Y: Any> property(propertyGetter: X.() -> KProperty<Y?>): Subject<Y> {
+        if (x == null) return skeleton  // TODO process error instead
+        val p = propertyGetter(x)
+        val name = p.name
+        val value: Y? = p.getter.call()
+        return alter(value, name)
+    }
+
+    infix fun<Y: Any> property(propertyReference: KProperty1<@UnsafeVariance X, Y?>): Subject<Y> {
+        if (x == null) return skeleton  // TODO process error instead
+        val name = propertyReference.name
+        val value: Y? = propertyReference.getter.call(x)
+        return alter(value, name)
+    }
+
+    fun<Y: Any> valueOf(innerName: String, expression: X.() -> Y?): Subject<Y> {
         val x: X = this.x ?: return skeleton // TODO process error instead
         return alter(x.expression(), innerName)
     }
 
-    fun<Y: Any> valueOf(property: (X)->KProperty<Y?>): Subject<Y> {
+    @Deprecated("Use function `property` instead", ReplaceWith("property"))
+    fun<Y: Any> valueOf(property: (X) -> KProperty<Y?>): Subject<Y> {
         if (x == null) return skeleton  // TODO process error instead
         val p = property(x)
         val name = p.name
