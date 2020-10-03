@@ -50,3 +50,17 @@ infix fun<K> Subject<Map<K,*>>.where(marker: keys): Subject<Set<K>> = alter(x?.k
 infix fun<V> Subject<Map<*,V>>.where(marker: values): Subject<Collection<V>> = alter(x?.values, marker.propertyName)
 infix fun<K,V> Subject<Map<K,V>>.where(marker: entries): Subject<Collection<Pair<K,V>>> = alter(x?.entries?.map{it.toPair()}, marker.propertyName)
 
+
+
+@JvmName("mapEntriesToItems")
+infix fun<K, V, M:Map<out K, V>, X> Subject<M>.items(getter: Map.Entry<K,V>.()->X): Subject<List<X>> =
+    handleAlteration("items") {
+        val m: M = this.x ?: return@handleAlteration NullFail
+        val n = m.size
+        val list = ArrayList<X>(n)
+        for (entry in m.entries) {
+            val item: X = entry.getter()
+            list += item
+        }
+        Product(list)
+    }

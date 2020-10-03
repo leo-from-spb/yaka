@@ -169,4 +169,23 @@ class CollectionTest: AbstractUnitTest() {
         expect that something2 iz notEmpty contains 333L
     }
 
+
+
+    private data class Thing(val name: String, val color: String)
+
+    private val things: Collection<Thing> = setOf(
+        Thing("Kettle", "green"),
+        Thing("Pot", "black"),
+        Thing("Spoon", "silver")
+    )
+
+
+
+    @Test
+    fun `collection items`() {
+        expect that things items Thing::name allElementsMeet { it.length > 2 }
+        expect that things items { color } allElementsMeet { it.length >= 5 }
+    }
+
+
 }

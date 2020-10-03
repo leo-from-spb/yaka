@@ -49,4 +49,24 @@ class CollectionNegativeTest: AbstractUnitTest() {
     }
 
 
+    private data class Thing(val name: String, val color: String)
+
+    private val things: Collection<Thing> = setOf(
+        Thing("Kettle", "green"),
+        Thing("Pot", "black"),
+        Thing("Spoon", "silver")
+    )
+
+
+    @Test
+    fun `things names should be long`() {
+        expectException<AssertionError> {
+            expect that things aka "Things" items Thing::name allElementsMeet { it.length >= 4 }
+        } where message complies {
+            this contains "only 2 of 3"
+            this contains "Things"
+        }
+    }
+
+
 }

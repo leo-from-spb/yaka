@@ -66,4 +66,20 @@ class CollectionNegativeDemo : DemoTest {
         expect that ca contains setOf('B', '\t', 'Ω')
     }
 
+
+
+    private data class Thing(val name: String, val color: String)
+
+    private val things: Collection<Thing> = setOf(
+        Thing("Kettle", "green"),
+        Thing("Pot", "black"),
+        Thing("Spoon", "silver")
+    )
+
+
+    @Test
+    fun `things names should be long`() {
+        things aka "Things" items {name} allElementsMeet {it.length >= 4}
+    }
+
 }

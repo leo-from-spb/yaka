@@ -20,7 +20,7 @@ class MapTest: AbstractUnitTest() {
             `7` to "seven",
             `8` to "eight",
             `9` to "nine"
-        );
+        )
 
     private val properties: Properties =
         Properties().apply {
@@ -96,6 +96,12 @@ class MapTest: AbstractUnitTest() {
     @Test
     fun `entries contains a pair`() {
         expect that digits where entries contains (`7` to "seven")
+    }
+
+    @Test
+    fun `items basic`() {
+        expect that digits items {key} allElementsMeet {it > `0`}
+        expect that digits items {value.length} allElementsMeet {it >= 3}
     }
 
 }

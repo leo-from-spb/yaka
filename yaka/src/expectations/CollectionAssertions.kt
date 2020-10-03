@@ -184,3 +184,16 @@ infix fun<E, I:Iterable<E>> Subject<I>.iz(marker: notEmpty): Subject<Collection<
         else Fail("is empty")
     }
 
+
+@JvmName("collectionEntriesToItems")
+infix fun<E, C:Collection<E>, X> Subject<C>.items(getter: E.()->X): Subject<List<X>> =
+    handleAlteration("items") {
+        val c: C = this.x ?: return@handleAlteration NullFail
+        val n = c.size
+        val list = ArrayList<X>(n)
+        for (entry in c) {
+            val item: X = entry.getter()
+            list += item
+        }
+        Product(list)
+    }
