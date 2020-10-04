@@ -54,6 +54,11 @@ class TextTest: AbstractUnitTest() {
     }
 
     @Test
+    fun `string contains string ignoring spaces`() {
+        expect that " a blue  cup \r\n with \n nice \t handle " containsIgnoringSpaces "blue cup with nice handle"
+    }
+
+    @Test
     fun `string contains all chars`() {
         expect that "typewriter" containsAll arrayOf('e', 'i', 'y')
     }

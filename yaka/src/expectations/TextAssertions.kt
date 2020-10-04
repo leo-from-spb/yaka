@@ -7,9 +7,6 @@ import lb.yaka.utils.*
 
 
 
-typealias TextSubject = Subject<CharSequence>
-
-
 
 infix fun TextSubject.iz(marker: emptyOrNull): TextSubject =
     handleValue(marker) {
@@ -63,6 +60,12 @@ infix fun TextSubject.contains(substr: String): TextSubject =
         else Fail("doesn't contain")
     }
 
+infix fun TextSubject.containsIgnoringSpaces(substr: String): TextSubject =
+    handleValue("""contains the substring "$substr" ignoring spaces""") {
+        if (it containsIgnoringSpaces substr) Ok
+        else Fail("doesn't contain")
+    }
+
 
 infix fun TextSubject.containsNot(c: Char): TextSubject =
     handleValue("doesn't contains the character: '$c'") {
@@ -73,6 +76,12 @@ infix fun TextSubject.containsNot(c: Char): TextSubject =
 infix fun TextSubject.containsNot(substr: String): TextSubject =
     handleValue("""doesn't contain the substring "$substr"""") {
         if (substr !in it) Ok
+        else Fail("contains!") // TODO show positions and how many times
+    }
+
+infix fun TextSubject.containsNotIgnoringSpaces(substr: String): TextSubject =
+    handleValue("""doesn't contain the substring "$substr" ignoring spaces """) {
+        if (!it.containsIgnoringSpaces(substr)) Ok
         else Fail("contains!") // TODO show positions and how many times
     }
 
@@ -127,12 +136,4 @@ infix fun TextSubject.hasLength(lengthRange: IntRange): TextSubject =
         }
     }
 
-
-object decimalNumber
-
-
-infix fun TextSubject.az(@Suppress("unused_parameter") decimalNumber: decimalNumber): Subject<Number> {
-    val number: Number? = this.x?.toNumberOrNull()
-    return this.alter(number)
-}
 

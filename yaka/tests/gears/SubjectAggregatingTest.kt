@@ -50,11 +50,12 @@ class SubjectAggregatingTest : AbstractUnitTest() {
             expect that theBookList every {
                 property { ::name } hasLength (12..25)
             }
-        } where message complies {
-            this contains "Element:"
-            this contains "Actual:"
-            this contains "Expected:"
-            this contains "Problem:"
+        } where message textBetween ("---+" to "+---") complies {
+            //print(x)
+            this containsIgnoringSpaces "Element: at 2: name"
+            this contains "Actual:" contains "The Adventures"
+            this contains "Expected:" contains "12..25"
+            this contains "Problem:" contains "too long"
         }
     }
 
@@ -65,6 +66,7 @@ class SubjectAggregatingTest : AbstractUnitTest() {
                 property { ::name } hasLength (12..18)
             }
         } where message complies {
+            //print(x)
             this contains "Element:"
             this contains "Actual:"
             this contains "Expected:"

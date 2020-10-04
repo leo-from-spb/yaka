@@ -101,14 +101,14 @@ class AggregatingController(private val origin: Controller,
         var k = 0
         for (p in problems) {
             k++
-            buff.append("\t---- ----- $k ---- -----\n")
+            buff.append("\t+--- ---- $k ---- ---+\n")
             if (useElementInfo)
                 buff.append("\tElement:  ").append(p.subjectName).append('\n')
                     .append("\tActual:   ").append(p.subjectValue).append('\n')
             buff.append("\tExpected: ").append(p.expectationDescription).append('\n')
             buff.append("\tProblem:  ").append(p.problemDescription).append('\n')
         }
-        buff.append("\t---- ----- - ---- -----\n")
+        buff.append("\t+--- ---- - ---- ---+\n")
         controller.reportMessage(buff)
     }
 

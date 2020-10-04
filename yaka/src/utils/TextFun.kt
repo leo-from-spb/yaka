@@ -24,3 +24,22 @@ fun StringBuilder.appendEolnIfNo(): StringBuilder {
     if (this.isEmpty() || this[length-1] != '\n') append('\n')
     return this
 }
+
+
+fun String.removeLongSpaces(): String {
+    if (this.isEmpty()) return this
+    return this.replace(Regex("""\s{2,}|[\r\n\t]"""), " ")
+}
+
+fun CharSequence.removeLongSpaces(): CharSequence {
+    if (this.isEmpty()) return this
+    return this.replace(Regex("""\s{2,}|[\r\n\t]"""), " ")
+}
+
+infix fun CharSequence.containsIgnoringSpaces(substr: String): Boolean {
+    val thisNormalized = this.removeLongSpaces()
+    val substrNormalized = substr.removeLongSpaces()
+    return substrNormalized in thisNormalized
+}
+
+
