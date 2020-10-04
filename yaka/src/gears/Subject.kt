@@ -63,16 +63,6 @@ fun<E, C: Collection<E>> subjectOf(collection: C?, containerName: String, elemen
 
 
 
-infix fun <X: Any> Subject<X>.complies(block: Subject<X>.() -> Unit): Subject<X> {
-    val thisController = this.controller
-    if (thisController is Oblivion) return this
-    val aggregatingController = AggregatingController(thisController)
-    val aggregatingSubject: Subject<X> = Subject(this.x, this.name, aggregatingController)
-    aggregatingSubject.block()
-    return aggregatingController.flush(this)
-}
-
-
 
 fun <X: Any> Subject<X>.handleSubject(expectationDescription: String, checkFunction: CheckFunction<X>): Subject<X> {
     return controller.handle(this, expectationDescription, checkFunction)

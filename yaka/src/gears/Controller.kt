@@ -46,7 +46,8 @@ object DirectController : Controller() {
 }
 
 
-class AggregatingController(private val origin: Controller) : Controller() {
+class AggregatingController(private val origin: Controller,
+                            private val useElementInfo: Boolean = false) : Controller() {
     
     private val problems: MutableList<ProblemInfo> = mutableListOf()
 
@@ -79,24 +80,36 @@ class AggregatingController(private val origin: Controller) : Controller() {
                 /* all ok */
             }
             1 -> {
-                val p = problems.first()
-                origin.report(p.subjectValue, p.subjectName, p.expectationDescription, p.problemDescription)
+                if (useElementInfo) reportManyProblems(subject, n, controller)
+                else reportSingleProblem()
             }
             else -> {
-                val buff = StringBuilder()
-                buff.append(subject.name).append(": $n expectations failed\n")
-                buff.append("Actual: ").append(subject.x.toString()).append('\n')
-                var k = 0
-                for (p in problems) {
-                    k++
-                    buff.append("\t---- ----- $k ---- -----\n")
-                        .append("\tExpected: ").append(p.expectationDescription).append('\n')
-                        .append("\tProblem:  ").append(p.problemDescription).append('\n')
-                }
-                buff.append("\t---- ----- - ---- -----\n")
-                controller.reportMessage(buff)
+                reportManyProblems(subject, n, controller)
             }
         }
+    }
+
+    private fun reportSingleProblem() {
+        val p = problems.first()
+        origin.report(p.subjectValue, p.subjectName, p.expectationDescription, p.problemDescription)
+    }
+
+    private fun reportManyProblems(subject: Subject<*>, n: Int, controller: DirectController) {
+        val buff = StringBuilder()
+        buff.append(subject.name).append(": $n expectations failed\n")
+        buff.append("Actual: ").append(subject.x.toString()).append('\n')
+        var k = 0
+        for (p in problems) {
+            k++
+            buff.append("\t---- ----- $k ---- -----\n")
+            if (useElementInfo)
+                buff.append("\tElement:  ").append(p.subjectName).append('\n')
+                    .append("\tActual:   ").append(p.subjectValue).append('\n')
+            buff.append("\tExpected: ").append(p.expectationDescription).append('\n')
+            buff.append("\tProblem:  ").append(p.problemDescription).append('\n')
+        }
+        buff.append("\t---- ----- - ---- -----\n")
+        controller.reportMessage(buff)
     }
 
     private fun flushToAggregate(controller: AggregatingController) {
