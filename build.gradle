@@ -84,3 +84,8 @@ test {
         includeEngines 'junit-jupiter'
     }
 }
+
+
+clean {
+    delete "out"
+}
