@@ -14,7 +14,7 @@ object Expect {
 
     inline infix fun<reified X: Any> that(x: X?): Subject<X> = Subject(x, X::class.simpleName.toString(), DirectController)
 
-    inline infix fun<reified E> that(x: Array<E>?):        Subject<List<E>>          = subjectOf(x?.asList(), "Array",        E::class)
+    inline infix fun<reified E> that(x: Array<out E>?):    Subject<List<E>>          = subjectOf(x?.asList(), "Array",        E::class)
     inline infix fun<reified E> that(x: List<E>?):         Subject<List<E>>          = subjectOf(x,           "List",         E::class)
     inline infix fun<reified E> that(x: NavigableSet<E>?): Subject<NavigableSet<E>>  = subjectOf(x,           "NavigableSet", E::class)
     inline infix fun<reified E> that(x: SortedSet<E>?):    Subject<SortedSet<E>>     = subjectOf(x,           "SortedSet",    E::class)

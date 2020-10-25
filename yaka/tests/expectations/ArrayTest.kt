@@ -125,4 +125,34 @@ class ArrayTest: AbstractUnitTest() {
         expect that myNumberArray allElementsMeet predicate("positive") { it > 0 }
     }
 
+
+    @Test
+    fun `Array of out Number`() {
+        val arr: Array<out Number> = arrayOf(`26`, 42.toShort(), 74)
+        expect that arr[0] equalsTo java.lang.Byte(`26`)
+        expect that arr[1] equalsTo java.lang.Short(42.toShort())
+        expect that arr[2] equalsTo java.lang.Integer(74)
+    }
+
+    @Test
+    fun `Array of Number`() {
+        val arr: Array<Number> = arrayOf(`26`, 42.toShort(), 74)
+        expect that arr[0] equalsTo java.lang.Byte(`26`)
+        expect that arr[1] equalsTo java.lang.Short(42.toShort())
+        expect that arr[2] equalsTo java.lang.Integer(74)
+    }
+
+    @Test
+    fun `Size of Array of Array of out Number`() {
+        val arr: Array<Array<out Number>> =
+            arrayOf(
+                arrayOf(1,2,3,4,5),
+                arrayOf(1,2),
+                arrayOf()
+            )
+        expect that arr hasSize 3
+        expect that arr[0] hasSize 5
+        expect that arr[2] iz empty
+    }
+
 }
