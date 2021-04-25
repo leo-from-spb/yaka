@@ -88,6 +88,7 @@ infix fun TextSubject.containsNotIgnoringSpaces(substr: String): TextSubject =
 
 infix fun TextSubject.containsAll(cc: Array<Char>): TextSubject = this.containsAll(cc.asList())
 
+@JvmName("containsAllChars")
 infix fun TextSubject.containsAll(cc: Collection<Char>): TextSubject =
     handleValue("contains all the following characters: ${cc.describeContent()}") {
         var omitted: MutableList<Char>? = null
@@ -100,6 +101,66 @@ infix fun TextSubject.containsAll(cc: Collection<Char>): TextSubject =
         if (omitted == null) Ok
         else Fail("doesn't contain the following characters: ${omitted.describeContent()}")
     }
+
+
+infix fun TextSubject.containsAll(strings: Array<String>): TextSubject = this.containsAll(strings.asList())
+
+@JvmName("containsAllStrings")
+infix fun TextSubject.containsAll(strings: Collection<String>): TextSubject =
+    handleValue("contains all the following strings: ${strings.describeContent()}") {
+        var omitted: MutableList<String>? = null
+        for (s in strings) {
+            if (s !in it) {
+                if (omitted == null) omitted = ArrayList(strings.size)
+                omitted.add(s)
+            }
+        }
+        if (omitted == null) Ok
+        else Fail("doesn't contain the following strings: ${omitted.describeContent()}")
+    }
+
+
+infix fun TextSubject.containsAllOrdered(strings: Array<String>): TextSubject = this.containsAllOrdered(strings.asList())
+
+infix fun TextSubject.containsAllOrdered(strings: List<String>): TextSubject =
+    handleValue("contains all the following strings in the specified order: ${strings.describeContent()}") {
+        var disordered: MutableList<String>? = null
+        var omitted: MutableList<String>? = null
+        var p = 0
+        for (s in strings) {
+            val q = it.indexOf(s, startIndex = p)
+            if (q >= 0) {
+                p = q + s.length
+            }
+            else {
+                val x = it.indexOf(s)
+                if (x >= 0) {
+                    if (disordered == null) disordered = ArrayList(strings.size)
+                    disordered.add(s)
+                    p = x + s.length
+                }
+                else {
+                    if (omitted == null) omitted = ArrayList(strings.size)
+                    omitted.add(s)
+                }
+            }
+        }
+        if (omitted == null && disordered == null) Ok
+        else Fail(describeDisorderedAndOmitted(disordered = disordered, omitted = omitted))
+    }
+
+private fun describeDisorderedAndOmitted(disordered: List<String>?, omitted: List<String>?): String {
+    val b = StringBuffer()
+    if (disordered != null) {
+        b.append("disordered substrings:\n")
+        disordered.joinTo(b, separator = "") { "\t$it\n" }
+    }
+    if (omitted != null) {
+        b.append("omitted substrings:\n")
+        omitted.joinTo(b, separator = "") { "\t$it\n" }
+    }
+    return b.toString()
+}
 
 
 infix fun TextSubject.containsAny(cc: Array<Char>): TextSubject = this.containsAny(cc.asList())

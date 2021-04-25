@@ -80,6 +80,43 @@ class TextTest: AbstractUnitTest() {
         expect that b containsNot "CD" containsNot "AC"
     }
 
+    @Test
+    fun `string contains all substrings`() {
+        val s = "Knowledge is Power"
+        expect that s containsAll arrayOf("Knowledge", "Power")
+        expect that s containsAll setOf("Knowledge", "Power")
+    }
+
+    @Test
+    fun `string contains all substrings reporting`() {
+        val s = "Knowledge is Power"
+        expectException<Error> {
+            expect that s containsAll arrayOf("Knowledge", "Great", "Power")
+        } where message contains "Great"
+    }
+
+    @Test
+    fun `string contains all ordered`() {
+        val s = "You miss 100% of the shots you don't take."
+        expect that s containsAllOrdered arrayOf("You", "miss", "100", "%", "take", ".")
+    }
+
+    @Test
+    fun `string contains all ordered report disordered`() {
+        val s = "You miss %100 of the shots you don't take."
+        expectException<Error> {
+            expect that s containsAllOrdered arrayOf("You", "miss", "100", "%", "take", ".")
+        } where message contains "disordered" contains "%"
+    }
+
+    @Test
+    fun `string contains all ordered report omitted`() {
+        val s = "You miss 20% of the shots you don't take."
+        expectException<Error> {
+            expect that s containsAllOrdered arrayOf("You", "miss", "100", "%", "take", ".")
+        } where message contains "omitted" contains "100"
+    }
+
     /// endregion
 
     /// region LENGTH

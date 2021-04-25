@@ -27,7 +27,7 @@ class ArrayTest: AbstractUnitTest() {
         val a = arrayOf<Number>(`10`, 100, 1000L)
         expectException<Error> {
             expect that a contains 500L
-        } where message contains "500" // containsAll("10", "100", "1000")
+        } where message contains "500" containsAllOrdered arrayOf("10", "100", "1000")
     }
 
 
