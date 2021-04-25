@@ -14,37 +14,55 @@ class ArrayTest: AbstractUnitTest() {
 
 
     @Test
-    fun `array of bytes`() {
+    fun `array contains value`() {
+        val a = arrayOf<Number>(`10`, 100, 1000L)
+        expect that a contains `10`
+        expect that a contains 100
+        expect that a contains 1000L
+    }
+
+
+    @Test
+    fun `array contains value reporting`() {
+        val a = arrayOf<Number>(`10`, 100, 1000L)
+        expectException<Error> {
+            expect that a contains 500L
+        } where message contains "500" // containsAll("10", "100", "1000")
+    }
+
+
+    @Test
+    fun `array of bytes contains value`() {
         val a = byteArrayOf(`26`)
         expect that a hasSize 1 contains `26`
     }
 
     @Test
-    fun `array of shorts`() {
+    fun `array of shorts contains value`() {
         val a = shortArrayOf(1980)
         expect that a hasSize 1 contains 1980.toShort()
     }
 
     @Test
-    fun `array of ints`() {
+    fun `array of ints contains value`() {
         val a = intArrayOf(123456789)
         expect that a hasSize 1 contains 123456789
     }
 
     @Test
-    fun `array of longs`() {
+    fun `array of longs contains value`() {
         val a = longArrayOf(Long.MAX_VALUE)
         expect that a hasSize 1 contains Long.MAX_VALUE
     }
 
     @Test
-    fun `array of floats`() {
+    fun `array of floats contains value`() {
         val a = floatArrayOf(3.1415f)
         expect that a hasSize 1 contains 3.1415f
     }
 
     @Test
-    fun `array of doubles`() {
+    fun `array of doubles contains value`() {
         val a = doubleArrayOf(2.718281828)
         expect that a hasSize 1 contains 2.718281828
     }
