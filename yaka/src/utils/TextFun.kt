@@ -33,6 +33,7 @@ fun String.removeLongSpaces(): String {
 
 fun CharSequence.removeLongSpaces(): CharSequence {
     if (this.isEmpty()) return this
+    if (this is String) return (this as String).removeLongSpaces()  // TODO mute the inspection here
     return this.replace(Regex("""\s{2,}|[\r\n\t]"""), " ")
 }
 

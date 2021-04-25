@@ -3,6 +3,7 @@
 package lb.yaka.expectations
 
 import lb.yaka.gears.*
+import lb.yaka.gears.TextBasicMatchResult.*
 import lb.yaka.utils.*
 
 
@@ -45,6 +46,19 @@ infix fun TextSubject.iz(marker: notBlank): TextSubject =
         else Fail("is empty")
     }
 
+
+infix fun TextSubject.equalsTo(string: String): TextSubject = this.equalsTo(TextBasicPattern(string))
+
+infix fun TextSubject.equalsTo(pattern: TextBasicPattern): TextSubject =
+    handleValue("equals to $pattern") {
+        val result = it.checkEqualsTo(pattern)
+        when (result) {
+            TEXT_MATCHED -> Ok
+            TEXT_CASE_IS_WRONG -> Fail("doesn't equal - the difference is in text case only")
+            TEXT_IS_WRONG -> Fail("doesn't equal")
+            TEXT_IS_EMPTY -> Fail("is empty")
+        }
+    }
 
 
 

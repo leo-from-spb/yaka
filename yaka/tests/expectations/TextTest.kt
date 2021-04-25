@@ -35,6 +35,49 @@ class TextTest: AbstractUnitTest() {
 
     /// endregion
 
+
+    /// region EQUALS
+
+    @Test
+    fun `text equals`() {
+        val x = 777
+        val s = "The Number $x"
+        expect that s equalsTo "The Number 777"
+    }
+
+    @Test
+    fun `text equals ignoring case`() {
+        val x = 777
+        val s = "the number $x"
+        expect that s equalsTo "The number 777".ignoringCase
+    }
+
+    @Test
+    fun `text equals - reporting case only`() {
+        val s = "Text With Wrong case"
+        expectException<Error> {
+            expect that s equalsTo "Text with wrong Case"
+        } where message contains "case only"
+    }
+
+    @Test
+    fun `text equals ignoring spaces`() {
+        val text = "This is \t a text \n with extra     spaces"
+        expect that text equalsTo "This is a text with extra spaces".ignoringSpaces
+    }
+
+    @Test
+    fun `text equals (same)`() {
+        val s = "The Text"
+        expect that s equalsTo s
+        expect that s equalsTo s.ignoringCase
+        expect that s equalsTo s.ignoringSpaces
+        expect that s equalsTo s.ignoringCase.ignoringSpaces
+    }
+
+    /// endregion
+
+
     /// region CONTAINS
 
     @Test
