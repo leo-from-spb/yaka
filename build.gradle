@@ -41,7 +41,7 @@ repositories {
 dependencies {
     api                "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
     runtimeOnly        "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
-    testImplementation "org.junit.jupiter:junit-jupiter:5.6.1"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
 }
 
 
