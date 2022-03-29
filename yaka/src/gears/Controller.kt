@@ -69,6 +69,7 @@ class AggregatingController(private val origin: Controller,
             when (origin) {
                 is DirectController      -> flushToDirect(origin, subject)
                 is AggregatingController -> flushToAggregate(origin)
+                else                     -> { /* just for Kotlin compiler */ }
             }
             return skeleton
         }

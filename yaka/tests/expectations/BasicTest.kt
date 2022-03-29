@@ -145,13 +145,13 @@ class BasicTest: AbstractUnitTest() {
 
     @Test
     fun toStringEqualsTo_basic() {
-        val num: Number = java.lang.Long(123456789L)
+        val num: Number = java.lang.Long.valueOf(123456789L)
         expect that num toStringEqualsTo "123456789"
     }
 
     @Test
     fun toStringContains_basic() {
-        val num: Number = java.lang.Long(123456789L)
+        val num: Number = java.lang.Long.valueOf(123456789L)
         expect that num toStringContains "2345678"
     }
 
