@@ -36,7 +36,7 @@ object Describer {
         }
 
     private fun describeChar(c: Char): CharSequence {
-        val v = c.toInt()
+        val v = c.code
         var text = v.toString(16).padStart(4, '0') + ' '
         if (v <= 0x1F) {
             when (c) {

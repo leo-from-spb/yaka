@@ -1,3 +1,5 @@
+@file:Suppress("no_reflection_in_class_path")
+
 package lb.yaka.gears
 
 import kotlin.reflect.KClass
