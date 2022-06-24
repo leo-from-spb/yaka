@@ -10,16 +10,21 @@ import kotlin.reflect.KProperty1
 class Subject<out X: Any> (
 
         val x:          X?,
-        val name:       String,
+        val id:         EntityId,
         val controller: Controller
 
 ) {
 
-    infix fun aka(name: String): Subject<X> = Subject(x, name, controller)
+    constructor(x: X?, type: String, name: String?, controller: Controller) : this(x, EntityId(type, name), controller)
+    
 
-    internal fun<Y: Any> alter(y: Y?): Subject<Y> = Subject(y, name, controller)
+    infix fun aka(alias: String): Subject<X> = Subject(x, id.aka(alias), controller)
 
-    internal fun<Y: Any> alter(y: Y?, innerName: String): Subject<Y> = Subject(y, "$name: $innerName", controller)
+    internal fun<Y: Any> alter(y: Y?): Subject<Y> = Subject(y, id, controller)
+
+    internal fun<Y: Any> alter(y: Y?, type: String, name: String): Subject<Y> = Subject(y, this.id.inner(type, name), controller)
+
+    internal fun<Y: Any> alter(y: Y?, marker: PropertyMarker): Subject<Y> = Subject(y, this.id.inner(marker), controller)
 
 
     infix fun<Y: Any> property(propertyGetter: X.() -> KProperty<Y?>): Subject<Y> {
@@ -27,19 +32,19 @@ class Subject<out X: Any> (
         val p = propertyGetter(x)
         val name = p.name
         val value: Y? = p.getter.call()
-        return alter(value, name)
+        return alter(value, type = "property", name = name)
     }
 
     infix fun<Y: Any> property(propertyReference: KProperty1<@UnsafeVariance X, Y?>): Subject<Y> {
         if (x == null) return skeleton  // TODO process error instead
         val name = propertyReference.name
         val value: Y? = propertyReference.getter.call(x)
-        return alter(value, name)
+        return alter(value, type = "property", name = name)
     }
 
-    fun<Y: Any> valueOf(innerName: String, expression: X.() -> Y?): Subject<Y> {
+    fun<Y: Any> valueOf(expressionName: String, expression: X.() -> Y?): Subject<Y> {
         val x: X = this.x ?: return skeleton // TODO process error instead
-        return alter(x.expression(), innerName)
+        return alter(x.expression(), type = "expression", name = expressionName)
     }
 
     @Deprecated("Use function `property` instead", ReplaceWith("property"))
@@ -48,7 +53,7 @@ class Subject<out X: Any> (
         val p = property(x)
         val name = p.name
         val value: Y? = p.getter.call()
-        return alter(value, name)
+        return alter(value, type = "property", name = name)
     }
 
 }
@@ -60,7 +65,7 @@ fun<E, C: Collection<E>> subjectOf(collection: C?, containerName: String, elemen
 }
 
 fun<E, C: Collection<E>> subjectOf(collection: C?, containerName: String, elementClassName: String): Subject<C> {
-    return Subject(collection, "$containerName of $elementClassName", DirectController)
+    return Subject(collection, EntityId(type = "$containerName of $elementClassName", name = null), DirectController)
 }
 
 
@@ -98,7 +103,7 @@ fun <X: Any, Y: Any> Subject<X>.handleValueAlteration(expectationDescription: St
 
 
 
-infix fun<X: Any> X?.aka(name: String): Subject<X> = Subject(this, name, DirectController)
+infix fun<X: Any> X?.aka(alias: String): Subject<X> = Subject(this, EntityId("value", alias, alias), DirectController)
 
 
 

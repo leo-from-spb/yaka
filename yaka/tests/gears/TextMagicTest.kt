@@ -12,7 +12,7 @@ class TextMagicTest : AbstractUnitTest {
     @Test
     fun between_basic() {
         val text = " ---xx12345zz---- "
-        val subj1 = TextSubject(text, "Text", DirectController)
+        val subj1 = TextSubject(text, EntityId("entity", "Text"), DirectController)
         val subj2 = subj1 textBetween ("xx" to "zz")
 
         subj2.x aka "SubText" equalsTo "12345"
@@ -21,7 +21,7 @@ class TextMagicTest : AbstractUnitTest {
     @Test
     fun between_trimmed() {
         val text = " --- xx 12345 zz ---- "
-        val subj1 = TextSubject(text, "Text", DirectController)
+        val subj1 = TextSubject(text, EntityId("entity", "Text"), DirectController)
         val subj2 = subj1 textBetweenTrim ("xx" to "zz")
 
         subj2.x aka "SubText" equalsTo "12345"
@@ -42,7 +42,7 @@ class TextMagicTest : AbstractUnitTest {
                       |    line3
                    """.trimMargin().trim()
 
-        val subj1 = TextSubject(text, "Text", DirectController)
+        val subj1 = TextSubject(text, EntityId("entity", "Text"), DirectController)
         val subj2 = subj1 textBetweenTrim ("----8<----" to "---->8----")
 
         subj2.x aka "SubText" equalsTo need
@@ -52,7 +52,7 @@ class TextMagicTest : AbstractUnitTest {
     @Test
     fun after_basic() {
         val text = " ---xx12345"
-        val subj1 = TextSubject(text, "Text", DirectController)
+        val subj1 = TextSubject(text, EntityId("entity", "Text"), DirectController)
         val subj2 = subj1 textAfter "xx"
 
         subj2.x aka "SubText" equalsTo "12345"
@@ -61,7 +61,7 @@ class TextMagicTest : AbstractUnitTest {
     @Test
     fun after_trimmed() {
         val text = " ---xx 12345 \n"
-        val subj1 = TextSubject(text, "Text", DirectController)
+        val subj1 = TextSubject(text, EntityId("entity", "Text"), DirectController)
         val subj2 = subj1 textAfterTrim "xx"
 
         subj2.x aka "SubText" equalsTo "12345"
@@ -70,7 +70,7 @@ class TextMagicTest : AbstractUnitTest {
     @Test
     fun before_basic() {
         val text = "12345zz aaa"
-        val subj1 = TextSubject(text, "Text", DirectController)
+        val subj1 = TextSubject(text, EntityId("entity", "Text"), DirectController)
         val subj2 = subj1 textBefore "zz"
 
         subj2.x aka "SubText" equalsTo "12345"
@@ -79,7 +79,7 @@ class TextMagicTest : AbstractUnitTest {
     @Test
     fun before_trimmed() {
         val text = " \n  12345  zz aaa"
-        val subj1 = TextSubject(text, "Text", DirectController)
+        val subj1 = TextSubject(text, EntityId("entity", "Text"), DirectController)
         val subj2 = subj1 textBeforeTrim "zz"
 
         subj2.x aka "SubText" equalsTo "12345"
@@ -94,7 +94,7 @@ class TextMagicTest : AbstractUnitTest {
                       |string C
                    """.trimMargin()
 
-        val subj1 = TextSubject(text, "Text", DirectController)
+        val subj1 = TextSubject(text, EntityId("entity", "Text"), DirectController)
         val subj2 = subj1 az listOfStrings
 
         val strings: List<String> = subj2.x ?: fail { "should not be null here" }

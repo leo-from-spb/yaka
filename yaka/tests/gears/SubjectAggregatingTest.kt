@@ -52,7 +52,7 @@ class SubjectAggregatingTest : AbstractUnitTest {
             }
         } where message textBetween ("---+" to "+---") complies {
             //print(x)
-            this containsIgnoringSpaces "Element: at 2: name"
+            this containsIgnoringSpaces "Element: property name of element at index 2"
             this contains "Actual:" contains "The Adventures"
             this contains "Expected:" contains "12..25"
             this contains "Problem:" contains "too long"

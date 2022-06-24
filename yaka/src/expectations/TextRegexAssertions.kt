@@ -44,7 +44,7 @@ infix fun MatchedTextSubject.withGroup(index: Int): TextSubject {
     val groupValues: List<String>? = x?.groupValues
     val n = groupValues?.size ?: 0
     val groupValue: String? = if (index in 0 until n) groupValues!![index] else null
-    return this.alter(groupValue, "group $index")
+    return this.alter(groupValue, "group", index.toString())
 }
 
 

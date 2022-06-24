@@ -11,7 +11,7 @@ sealed class Controller {
         val result = subject.checkFunction()
         when (result) {
             is Success -> return subject
-            is Fail    -> { report(subject.x, subject.name, expectationDescription, result.problem); return skeleton }
+            is Fail    -> { report(subject.x, subject.id, expectationDescription, result.problem); return skeleton }
         }
     }
 
@@ -22,11 +22,11 @@ sealed class Controller {
         when (result) {
             is Product -> return subject.alter(result.value)
             is Success -> throw RuntimeException("Unexpected state: returned class ${result.javaClass.simpleName} instead of Product<R>")
-            is Fail    -> { report(subject.x, subject.name, expectationDescription, result.problem); return skeleton }
+            is Fail    -> { report(subject.x, subject.id, expectationDescription, result.problem); return skeleton }
         }
     }
 
-    internal abstract fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String)
+    internal abstract fun report(subjectValue: Any?, subjectId: EntityId, expectationDescription: String, problemDescription: String)
 
 }
 
@@ -34,8 +34,8 @@ sealed class Controller {
 
 object DirectController : Controller() {
 
-    override fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String) {
-        val message = prepareReportMessage(subjectName, expectationDescription, subjectValue, problemDescription)
+    override fun report(subjectValue: Any?, subjectId: EntityId, expectationDescription: String, problemDescription: String) {
+        val message = prepareReportMessage(subjectId, expectationDescription, subjectValue, problemDescription)
         reportMessage(message)
     }
 
@@ -53,8 +53,8 @@ class AggregatingController(private val origin: Controller,
 
     internal val hasProblems: Boolean get() = problems.isNotEmpty()
 
-    override fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String) {
-        problems += ProblemInfo(subjectValue, subjectName, expectationDescription, problemDescription)
+    override fun report(subjectValue: Any?, subjectId: EntityId, expectationDescription: String, problemDescription: String) {
+        problems += ProblemInfo(subjectValue, subjectId, expectationDescription, problemDescription)
     }
 
     internal fun reportMulti(problems: Collection<ProblemInfo>) {
@@ -92,20 +92,20 @@ class AggregatingController(private val origin: Controller,
 
     private fun reportSingleProblem() {
         val p = problems.first()
-        origin.report(p.subjectValue, p.subjectName, p.expectationDescription, p.problemDescription)
+        origin.report(p.subjectValue, p.subjectId, p.expectationDescription, p.problemDescription)
     }
 
     private fun reportManyProblems(subject: Subject<*>, n: Int, controller: DirectController) {
         val buff = StringBuilder()
-        buff.append(subject.name).append(": $n expectations failed\n")
+        buff.append(subject.id.simpleName).append(": $n expectations failed\n")
         buff.append("Actual: ").append(subject.x.toString()).append('\n')
         var k = 0
         for (p in problems) {
             k++
+            val displayName = p.subjectId.nameInContext(subject.id)
             buff.append("\t+--- ---- $k ---- ---+\n")
-            if (useElementInfo)
-                buff.append("\tElement:  ").append(p.subjectName).append('\n')
-                    .append("\tActual:   ").append(p.subjectValue).append('\n')
+            buff.append("\tElement:  ").append(displayName).append('\n')
+            buff.append("\tActual:   ").append(p.subjectValue).append('\n')
             buff.append("\tExpected: ").append(p.expectationDescription).append('\n')
             buff.append("\tProblem:  ").append(p.problemDescription).append('\n')
         }
@@ -124,16 +124,16 @@ class AggregatingController(private val origin: Controller,
 object Oblivion : Controller() {
     override fun <X : Any> handle(subject: Subject<X>, expectationDescription: String, checkFunction: CheckFunction<X>): Subject<X> = skeleton
     override fun <X: Any, Y: Any> handleAlteration(subject: Subject<X>, expectationDescription: String, checkFunction: CheckAlterFunction<X, Y>): Subject<Y> = skeleton
-    override fun report(subjectValue: Any?, subjectName: String, expectationDescription: String, problemDescription: String) {}
+    override fun report(subjectValue: Any?, subjectId: EntityId, expectationDescription: String, problemDescription: String) {}
 }
 
 
 
 
 internal data class ProblemInfo (val subjectValue: Any?,
-                                 val subjectName: String,
+                                 val subjectId: EntityId,
                                  val expectationDescription: String, 
                                  val problemDescription: String)
 
 
-internal val skeleton = Subject<Nothing>(null, "Ancient Skeleton", Oblivion)
+internal val skeleton = Subject<Nothing>(null, EntityId(type = "Ancient Skeleton", name = null), Oblivion)

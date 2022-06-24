@@ -115,7 +115,7 @@ infix fun<X: Any> Subject<X>.toStringContains(substr: String): Subject<X> =
 object toString: PropertyMarker("toString")
 
 
-infix fun<X: Any> Subject<X>.where(marker: toString): Subject<String> = alter(x?.toString(), marker.propertyName)
+infix fun<X: Any> Subject<X>.where(marker: toString): Subject<String> = alter(x?.toString(), marker)
 
 
 

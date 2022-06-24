@@ -12,7 +12,7 @@ import kotlin.streams.toList
 
 object Expect {
 
-    inline infix fun<reified X: Any> that(x: X?): Subject<X> = Subject(x, X::class.simpleName.toString(), DirectController)
+    inline infix fun<reified X: Any> that(x: X?): Subject<X> = Subject(x, type = X::class.simpleName.toString(), name = null, controller = DirectController)
 
     inline infix fun<reified E> that(x: Array<out E>?):    Subject<List<E>>          = subjectOf(x?.asList(), "Array",        E::class)
     inline infix fun<reified E> that(x: List<E>?):         Subject<List<E>>          = subjectOf(x,           "List",         E::class)

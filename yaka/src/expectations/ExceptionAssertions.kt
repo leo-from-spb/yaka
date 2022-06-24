@@ -13,7 +13,7 @@ inline fun<reified X: Throwable> expectException(name: String = defaultRoutineNa
 
 fun<X: Throwable> expectException(exceptionClass: KClass<X>, name: String = defaultRoutineName, routine: Routine): Subject<X> {
     val controller = DirectController
-    val subject = Subject(routine, name, controller)
+    val subject = Subject(routine, "routine", name, controller)
     val description = "Throws " + exceptionClass.simpleName
     @Suppress("UnnecessaryVariable")
     val resultSubject: Subject<X> = controller.handleAlteration(subject, description) {
@@ -42,5 +42,5 @@ const val defaultRoutineName = "Routine"
 object message : PropertyMarker("message")
 object cause : PropertyMarker("cause")
 
-infix fun Subject<Throwable>.where(marker: message): Subject<String> = alter(x?.message, marker.propertyName)
-infix fun Subject<Throwable>.where(marker: cause): Subject<Throwable> = alter(x?.cause, marker.propertyName)
+infix fun Subject<Throwable>.where(marker: message): Subject<String> = alter(x?.message, marker)
+infix fun Subject<Throwable>.where(marker: cause): Subject<Throwable> = alter(x?.cause, marker)
