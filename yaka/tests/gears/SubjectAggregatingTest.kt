@@ -8,7 +8,7 @@ import lb.yaka.theBookList
 import org.junit.jupiter.api.Test
 
 
-class SubjectAggregatingTest : AbstractUnitTest() {
+class SubjectAggregatingTest : AbstractUnitTest {
 
 
     @Test

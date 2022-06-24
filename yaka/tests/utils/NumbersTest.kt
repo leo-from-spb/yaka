@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.stream.Stream
 
 
-class NumbersTest: AbstractUnitTest() {
+class NumbersTest: AbstractUnitTest {
 
     companion object {
 

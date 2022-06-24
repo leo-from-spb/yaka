@@ -5,7 +5,7 @@ import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
 
 
-class TextTest: AbstractUnitTest() {
+class TextTest: AbstractUnitTest {
 
     /// region EMPTY, BLANK
 

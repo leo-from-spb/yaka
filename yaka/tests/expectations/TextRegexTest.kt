@@ -5,7 +5,7 @@ import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
 
 
-class TextRegexTest: AbstractUnitTest() {
+class TextRegexTest: AbstractUnitTest {
 
     @Test
     fun `basic 1`() {

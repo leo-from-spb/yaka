@@ -6,4 +6,4 @@ import org.junit.jupiter.api.TestInstance
 
 @Tag("UnitTest")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-abstract class AbstractUnitTest
+interface AbstractUnitTest

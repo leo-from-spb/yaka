@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import java.util.*
 
 
-class MapTest: AbstractUnitTest() {
+class MapTest: AbstractUnitTest {
 
     private val digits: Map<Byte, String> =
         mapOf(

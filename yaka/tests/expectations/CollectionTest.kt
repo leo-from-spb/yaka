@@ -8,7 +8,7 @@ import java.util.Collections.singleton
 import java.util.stream.Stream
 
 
-class CollectionTest: AbstractUnitTest() {
+class CollectionTest: AbstractUnitTest {
 
     private val myList4S: List<String>? = listOf("Einz", "Zwei", "Drei", "Vier")
     private val mySetOfCars: Set<String>? = setOf("Impreza", "Forester", "Outback", "Legacy")

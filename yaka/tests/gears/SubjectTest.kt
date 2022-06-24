@@ -7,7 +7,7 @@ import lb.yaka.theBook1
 import org.junit.jupiter.api.Test
 
 
-class SubjectTest : AbstractUnitTest() {
+class SubjectTest : AbstractUnitTest {
 
 
     @Test

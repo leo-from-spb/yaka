@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 
 @Suppress("RemoveExplicitTypeArguments")
-class CollectionNegativeTest: AbstractUnitTest() {
+class CollectionNegativeTest: AbstractUnitTest {
 
     @Test
     fun report_contains_Array_of_float_primitive() {

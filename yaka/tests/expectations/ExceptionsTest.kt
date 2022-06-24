@@ -5,7 +5,7 @@ import lb.yaka.gears.*
 import lb.yaka.utils.*
 import org.junit.jupiter.api.Test
 
-class ExceptionsTest: AbstractUnitTest() {
+class ExceptionsTest: AbstractUnitTest {
 
     @Test
     fun basic() {

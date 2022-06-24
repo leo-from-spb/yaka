@@ -5,7 +5,7 @@ import lb.yaka.gears.*
 import org.junit.jupiter.api.Test
 
 
-class CompliesTest: AbstractUnitTest() {
+class CompliesTest: AbstractUnitTest {
 
     companion object {
 

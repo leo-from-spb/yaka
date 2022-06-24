@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
 
-class TextMagicTest : AbstractUnitTest() {
+class TextMagicTest : AbstractUnitTest {
 
 
     @Test

@@ -8,7 +8,7 @@ import lb.yaka.utils.*
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
 
-class BasicTest: AbstractUnitTest() {
+class BasicTest: AbstractUnitTest {
 
     data class Point (val x: Int, val y: Int) {
         override fun toString(): String = "($x,$y)"

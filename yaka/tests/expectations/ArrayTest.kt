@@ -6,7 +6,7 @@ import lb.yaka.utils.*
 import org.junit.jupiter.api.Test
 
 
-class ArrayTest: AbstractUnitTest() {
+class ArrayTest: AbstractUnitTest {
 
     private val myGermanArray: Array<String>? = arrayOf("Einz", "Zwei", "Drei", "Vier")
 

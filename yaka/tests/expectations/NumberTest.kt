@@ -6,7 +6,7 @@ import lb.yaka.utils.*
 import org.junit.jupiter.api.Test
 
 
-class NumberTest: AbstractUnitTest() {
+class NumberTest: AbstractUnitTest {
 
     @Test fun byte_equalsTo_byte() { expect that `26` equalsTo `26` }
     @Test fun byte_equalsTo_int()  { expect that `26` equalsTo 26   }
