@@ -2,7 +2,7 @@
   <artifact type="jar" name="yaka-src.jar">
     <output-path>$PROJECT_DIR$/out</output-path>
     <root id="archive" name="yaka-src.jar">
-      <element id="module-source" name="yaka" />
+      <element id="module-source" name="lb.yaka" />
     </root>
   </artifact>
 </component>
