@@ -27,7 +27,7 @@
 
 #### Platforms
 
-The version 1 is being developed for JVM (version 8+).
+The version 1 is being developed for JVM (version 11+).
 
 The version 2 is planned to be multi-platform.
 
