@@ -1,9 +1,10 @@
-package lb.yaka.gears
+package lb.yaka.tests.gears
 
-import lb.yaka.AbstractUnitTest
-import lb.yaka.Book
 import lb.yaka.expectations.*
-import lb.yaka.theBook1
+import lb.yaka.gears.*
+import lb.yaka.tests.AbstractUnitTest
+import lb.yaka.tests.rabbits.Book
+import lb.yaka.tests.rabbits.theBook1
 import org.junit.jupiter.api.Test
 
 

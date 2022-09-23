@@ -1,4 +1,4 @@
-package lb.yaka
+package lb.yaka.tests
 
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.TestInstance

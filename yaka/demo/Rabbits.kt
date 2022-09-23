@@ -1,4 +1,4 @@
-package lb.yaka
+package lb.yaka.demo
 
 
 data class Book (val name: String, val author: String) {

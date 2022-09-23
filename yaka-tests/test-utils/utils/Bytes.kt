@@ -1,6 +1,6 @@
 @file:Suppress("ObjectPropertyName", "unused")
 
-package lb.yaka.utils
+package lb.yaka.tests.utils
 
 
 const val `0`: Byte = 0.toByte()

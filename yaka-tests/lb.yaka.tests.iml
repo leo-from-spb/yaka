@@ -3,17 +3,16 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="lb.yaka" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="lb.yaka" />
-      <sourceFolder url="file://$MODULE_DIR$/demo" isTestSource="true" packagePrefix="lb.yaka.demo" />
       <sourceFolder url="file://$MODULE_DIR$/module-info" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/odds" />
+      <sourceFolder url="file://$MODULE_DIR$/test-utils" isTestSource="false" packagePrefix="lb.yaka.tests" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="lb.yaka.tests" />
     </content>
-    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="kotlin-stdlib-jdk8" level="project" />
     <orderEntry type="library" name="kotlin-reflect" level="project" />
-    <orderEntry type="library" scope="TEST" name="junit-platform-commons" level="project" />
+    <orderEntry type="module" module-name="lb.yaka" />
     <orderEntry type="library" scope="TEST" name="junit-jupiter" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit-platform-commons" level="project" />
   </component>
 </module>

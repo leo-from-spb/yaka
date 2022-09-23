@@ -1,8 +1,10 @@
-package lb.yaka.utils
+package lb.yaka.tests.utils
 
-import lb.yaka.AbstractUnitTest
+import lb.yaka.*
 import lb.yaka.expectations.*
 import lb.yaka.gears.*
+import lb.yaka.tests.AbstractUnitTest
+import lb.yaka.utils.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments

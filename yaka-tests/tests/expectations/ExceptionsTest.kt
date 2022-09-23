@@ -1,7 +1,8 @@
-package lb.yaka.expectations
+package lb.yaka.tests.expectations
 
-import lb.yaka.AbstractUnitTest
+import lb.yaka.expectations.*
 import lb.yaka.gears.*
+import lb.yaka.tests.AbstractUnitTest
 import lb.yaka.utils.*
 import org.junit.jupiter.api.Test
 
