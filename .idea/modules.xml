@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/yaka/lb.yaka.iml" filepath="$PROJECT_DIR$/yaka/lb.yaka.iml" />
       <module fileurl="file://$PROJECT_DIR$/yaka-tests/lb.yaka.tests.iml" filepath="$PROJECT_DIR$/yaka-tests/lb.yaka.tests.iml" />
     </modules>
   </component>
