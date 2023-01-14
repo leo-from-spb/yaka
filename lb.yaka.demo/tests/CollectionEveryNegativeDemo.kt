@@ -2,7 +2,6 @@ package lb.yaka.demo
 
 import lb.yaka.expectations.*
 import lb.yaka.gears.*
-import lb.yaka.theBookList
 import org.junit.jupiter.api.Test
 
 

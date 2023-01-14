@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/lb.yaka/lb.yaka.iml" filepath="$PROJECT_DIR$/lb.yaka/lb.yaka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lb.yaka.demo/lb.yaka.demo.iml" filepath="$PROJECT_DIR$/lb.yaka.demo/lb.yaka.demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/lb.yaka.test/lb.yaka.test.iml" filepath="$PROJECT_DIR$/lb.yaka.test/lb.yaka.test.iml" />
     </modules>
   </component>
