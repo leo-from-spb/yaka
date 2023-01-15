@@ -1,6 +1,6 @@
 package lb.yaka.test.gears
 
-import lb.yaka.gears.*
+import lb.yaka.base.gears.EntityId
 import lb.yaka.test.AbstractUnitTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

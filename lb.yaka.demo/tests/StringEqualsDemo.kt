@@ -1,7 +1,7 @@
 package lb.yaka.demo
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.*
+import lb.yaka.base.gears.*
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test

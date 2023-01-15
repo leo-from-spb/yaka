@@ -1,7 +1,7 @@
 package lb.yaka.test.gears
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.equalsTo
+import lb.yaka.base.gears.expect
 import lb.yaka.test.AbstractUnitTest
 import lb.yaka.test.Book
 import lb.yaka.test.theBook1

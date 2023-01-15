@@ -1,7 +1,9 @@
 package lb.yaka.demo
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.contains
+import lb.yaka.base.expectations.hasLength
+import lb.yaka.base.gears.every
+import lb.yaka.base.gears.expect
 import org.junit.jupiter.api.Test
 
 

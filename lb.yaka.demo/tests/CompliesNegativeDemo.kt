@@ -1,7 +1,8 @@
 package lb.yaka.demo
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.equalsTo
+import lb.yaka.base.gears.complies
+import lb.yaka.base.gears.expect
 import org.junit.jupiter.api.Test
 
 

@@ -1,7 +1,10 @@
 package lb.yaka.test.expectations
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.*
+import lb.yaka.base.gears.empty
+import lb.yaka.base.gears.emptyOrNull
+import lb.yaka.base.gears.expect
+import lb.yaka.base.gears.notEmpty
 import lb.yaka.test.AbstractUnitTest
 import lb.yaka.test.utils.*
 import org.junit.jupiter.api.Test

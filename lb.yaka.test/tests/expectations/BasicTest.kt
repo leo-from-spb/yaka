@@ -2,12 +2,12 @@
 
 package lb.yaka.test.expectations
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.*
+import lb.yaka.base.gears.*
+import lb.yaka.base.utils.*
 import lb.yaka.test.*
 import lb.yaka.test.gears.*
 import lb.yaka.test.utils.*
-import lb.yaka.utils.*
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
 

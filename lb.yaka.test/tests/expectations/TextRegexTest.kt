@@ -1,7 +1,11 @@
 package lb.yaka.test.expectations
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.equalsTo
+import lb.yaka.base.expectations.matches
+import lb.yaka.base.expectations.withGroup
+import lb.yaka.base.gears.az
+import lb.yaka.base.gears.decimalNumber
+import lb.yaka.base.gears.expect
 import lb.yaka.test.AbstractUnitTest
 import org.junit.jupiter.api.Test
 

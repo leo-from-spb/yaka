@@ -1,7 +1,9 @@
 package lb.yaka.test.gears
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.at
+import lb.yaka.base.expectations.equalsTo
+import lb.yaka.base.expectations.hasSize
+import lb.yaka.base.gears.*
 import lb.yaka.test.AbstractUnitTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
