@@ -4,7 +4,6 @@
 open module lb.yaka.base {
 
     requires transitive kotlin.stdlib;
-    requires static     kotlin.stdlib.jdk8;
 
     exports lb.yaka.base;
     exports lb.yaka.base.gears;
