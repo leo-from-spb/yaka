@@ -2,7 +2,7 @@ group 'lb.yaka'
 
 
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '1.8.10'
 
     repositories {
         mavenCentral()
@@ -53,8 +53,8 @@ repositories {
 }
 
 dependencies {
-    api                "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
-    runtimeOnly        "org.jetbrains.kotlin:kotlin-reflect:1.7.10"
+    api                "org.jetbrains.kotlin:kotlin-stdlib:1.8.10"
+    runtimeOnly        "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
     testImplementation "org.junit.jupiter:junit-jupiter:5.9.1"
 }
 
