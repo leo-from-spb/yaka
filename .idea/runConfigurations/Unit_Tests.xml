@@ -4,6 +4,7 @@
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="tags" />
+    <option name="VM_PARAMETERS" value="-ea --add-exports org.junit.platform.commons/org.junit.platform.commons=ALL-UNNAMED --add-exports org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED --add-exports org.junit.platform.commons/org.junit.platform.commons.logging=ALL-UNNAMED" />
     <option name="PARAMETERS" value="" />
     <tag value="UnitTest" />
     <method v="2">

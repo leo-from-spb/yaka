@@ -4,14 +4,14 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/module-info" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="lb.yaka.test" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="false" packagePrefix="lb.yaka.test" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="lb.yaka.base" />
     <orderEntry type="library" name="kotlin-stdlib" level="project" />
     <orderEntry type="library" name="kotlin-reflect" level="project" />
-    <orderEntry type="library" scope="TEST" name="junit-jupiter" level="project" />
-    <orderEntry type="library" scope="TEST" name="junit-platform-commons" level="project" />
+    <orderEntry type="library" name="junit-jupiter-api" level="project" />
+    <orderEntry type="library" name="junit-jupiter-params" level="project" />
   </component>
 </module>

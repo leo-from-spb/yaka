@@ -4,4 +4,7 @@ open module lb.yaka.tests {
     requires kotlin.stdlib;
     requires kotlin.reflect;
 
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.params;
+
 }
