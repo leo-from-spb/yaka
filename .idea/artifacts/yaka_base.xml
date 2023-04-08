@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="yaka-base">
+    <output-path>$PROJECT_DIR$/out/artifacts</output-path>
+    <root id="archive" name="yaka-base.jar">
+      <element id="module-output" name="lb.yaka.base" />
+    </root>
+  </artifact>
+</component>

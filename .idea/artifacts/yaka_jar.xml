@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="yaka.jar">
-    <output-path>$PROJECT_DIR$/out</output-path>
-    <root id="archive" name="yaka.jar">
-      <element id="module-output" name="yaka" />
-    </root>
-  </artifact>
-</component>
