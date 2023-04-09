@@ -1,6 +1,6 @@
-open module lb.yaka.tests {
+open module yaka.tests {
 
-    requires lb.yaka.base;
+    requires yaka.base;
     requires kotlin.stdlib;
     requires kotlin.reflect;
 

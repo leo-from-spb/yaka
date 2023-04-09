@@ -1,7 +1,7 @@
 /**
  * YAKA — Yet Another Kotlin Assertions framework.
  **/
-open module lb.yaka.base {
+open module yaka.base {
 
     requires transitive kotlin.stdlib;
 
