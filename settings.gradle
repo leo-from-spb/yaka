@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+}
+
+rootProject.name = 'yaka'
+
+include 'yaka.base'
+include 'yaka.test'
+//include 'yaka.demo'
