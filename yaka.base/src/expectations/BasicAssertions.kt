@@ -3,7 +3,7 @@ package lb.yaka.base.expectations
 import lb.yaka.base.Yaka
 import lb.yaka.base.gears.*
 import lb.yaka.base.gears.Describer.describe
-import lb.yaka.base.utils.*
+import lb.yaka.base.utils.tryCastTo
 import kotlin.reflect.KClass
 
 
@@ -70,6 +70,7 @@ infix fun<X: Any> Subject<X>.meets(predicate: (X) -> Boolean): Subject<X> =
     }
 
 
+@JvmName("izClass")
 infix fun<X: Any, Y: Any> Subject<X>.iz(klass: KClass<Y>): Subject<Y> =
     handleAlteration("is an instance of the class ${klass.simpleName}") {
         if (x == null) return@handleAlteration NullFail
@@ -78,6 +79,7 @@ infix fun<X: Any, Y: Any> Subject<X>.iz(klass: KClass<Y>): Subject<Y> =
         else return@handleAlteration Fail("actual class is ${x.javaClass.kotlin.qualifiedName}")
     }
 
+@JvmName("izClass")
 infix fun<X: Any, Y: Any> Subject<X>.iz(klass: Class<Y>): Subject<Y> =
     handleAlteration("is an instance of the class ${klass.simpleName}") {
         if (x == null) return@handleAlteration NullFail
