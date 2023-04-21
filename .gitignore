@@ -8,9 +8,12 @@
 .idea/$*
 projectFilesBackup
 out
+dir.txt
 
 # Gradle stuff
 build
+gradle
+gradlew*
 **/build
 **/target
 .gradle
