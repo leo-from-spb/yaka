@@ -34,5 +34,19 @@ The version 2 is planned to be multi-platform.
 
 #### Status
 
-Under construction.              
-   
+Under construction. 
+
+
+#### Build
+
+During development, I use IntelliJ Idea to code and build.
+
+Additionally, Gradle is used to build and deploy artifacts.
+In order to use Gradle wrapper just prepare it by the existing gradle
+```bash
+   gradle wrapper
+```
+or add the additional repository:
+```bash
+   git clone git@github.com:leo-from-spb/gradle.git
+```                                                     
