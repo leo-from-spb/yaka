@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Unit Tests Launcher" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="lb.yaka.test.launcher.TestLaunch" />
+    <module name="yaka.test" />
+    <option name="PROGRAM_PARAMETERS" value="UnitTest" />
+    <shortenClasspath name="NONE" />
+    <option name="VM_PARAMETERS" value="-ea" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

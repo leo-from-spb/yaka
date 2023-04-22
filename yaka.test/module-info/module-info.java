@@ -7,4 +7,7 @@ open module yaka.tests {
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.params;
 
+    requires org.junit.platform.launcher;
+    requires org.junit.jupiter.engine;
+
 }
