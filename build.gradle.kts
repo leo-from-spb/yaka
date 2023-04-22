@@ -20,4 +20,5 @@ allprojects {
 tasks.register("clean", Delete::class){
     delete("out")
     delete("build")
+    delete("jars")
 }
