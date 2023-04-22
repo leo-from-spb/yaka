@@ -1,5 +1,7 @@
 package lb.yaka.test.launcher
 
+import lb.yaka.test.teamcity.TeamCityListener
+import lb.yaka.test.teamcity.TeamCityMessages
 import org.junit.platform.engine.discovery.DiscoverySelectors.selectPackage
 import org.junit.platform.launcher.Launcher
 import org.junit.platform.launcher.LauncherDiscoveryRequest
@@ -12,6 +14,10 @@ import org.junit.platform.launcher.listeners.TestExecutionSummary
 
 
 object TestLaunch {
+
+    init {
+        TeamCityMessages.messageConsumer = ::say
+    }
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -37,8 +43,9 @@ object TestLaunch {
             .build()
         val launcher: Launcher = LauncherFactory.create()
         val testPlan: TestPlan = launcher.discover(request)
+        val teamCityListener = TeamCityListener()
         val summaryListener = SummaryGeneratingListener()
-        launcher.registerTestExecutionListeners(summaryListener)
+        launcher.registerTestExecutionListeners(teamCityListener, summaryListener)
         launcher.execute(testPlan)
         val summary: TestExecutionSummary = summaryListener.summary
 
