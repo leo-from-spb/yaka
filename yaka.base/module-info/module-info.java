@@ -9,5 +9,6 @@ open module yaka.base {
     exports lb.yaka.base.gears;
     exports lb.yaka.base.expectations;
     exports lb.yaka.base.utils;
+    exports lb.yaka.base.experiment;
 
 }
