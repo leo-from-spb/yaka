@@ -49,10 +49,35 @@ class ExpTest {
             str aka "My String" equalsTo "ABCY"
             str2 aka "Another String" equalsTo "XYZT"
         }
+    }
 
-        expect that 25 equalsTo 25
-        expect that 25 aka "My Number" equalsTo 25
-        25 aka "My Number" equalsTo 25
+
+    @Test
+    fun `a test that uses Verify`() {
+        val str = "A" + "BC"
+        val str2: String? = null
+
+        verify {
+            that(str) equalsTo "ABC"
+            that(str) equalsTo "ABCD"
+            that(str, "My String") equalsTo "ABCX"
+            str aka "My String" equalsTo "ABCY"
+            str2 aka "Another String" equalsTo "XYZT"
+        }
+    }
+
+    @Test
+    fun `a test with $ in the middle`() {
+        val str = "A" + "BC"
+        val str2: String? = null
+
+        verify {
+            that(str) equalsTo "ABC"
+            that(str) equalsTo "ABCD"
+            that(str, "My String") equalsTo "ABCX"
+            str aka "My String" equalsTo "ABCY"
+            str2 aka "Another String" equalsTo "XYZT"
+        }
     }
 
 

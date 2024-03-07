@@ -32,10 +32,14 @@ sealed class Bucket {
 
     protected fun postOneFailure(subject: Subject<*>) {
         val f = subject.failure ?: return
-        if (f.comparison) Yaka.fail(f.message,
+        val sourcePoint = subject.sourcePoint
+        var header = "Assertion failed"
+        if (sourcePoint != null) header += " at " + sourcePoint
+        val message = header + '\n' + f.message
+        if (f.comparison) Yaka.fail(message,
                                     expect = f.expectSide ?: "null",
                                     actual = f.actualSide ?: "null")
-        else Yaka.fail(f.message)
+        else Yaka.fail(message)
     }
 }
 
@@ -75,8 +79,10 @@ class MultiExpectationBucket : Bucket() {
         val n = failedSubjects.size
         b.appendLine("Failed $n assertions")
         for (i in 0 .. n-1) {
-            b.appendLine("-------- ${i+1} --------")
             val fs = failedSubjects[i]
+            val sourcePoint = fs.sourcePoint
+            b.appendLine(if (sourcePoint != null) "-------- ${i+1} ---- at $sourcePoint --------"
+                         else "-------- ${i+1} --------")
             val f: Failure = fs.failure ?: continue
             b.appendLine(f.message)
         }
@@ -125,4 +131,5 @@ fun<E: Exception> handleCatchedException(bucket: Bucket, name: String, expectedE
         return subject
     }
 }
+
 
