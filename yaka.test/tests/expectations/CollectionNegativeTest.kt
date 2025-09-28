@@ -10,6 +10,31 @@ import org.junit.jupiter.api.Test
 class CollectionNegativeTest: AbstractUnitTest {
 
     @Test
+    fun `fail_list_equals_to_1`() {
+        val list = listOf("A", "B", "C")
+        expectException<AssertionError> {
+            expect that list equalsTo listOf("A", "B")
+        }
+    }
+
+    @Test
+    fun `fail_list_equals_to_2`() {
+        val list = listOf("A", "B", "C")
+        expectException<AssertionError> {
+            expect that list equalsTo listOf("A", "B", "C", "X")
+        }
+    }
+
+    @Test
+    fun `fail_list_equals_to_wrong_order`() {
+        val list = listOf("A", "B", "C", "D")
+        expectException<AssertionError> {
+            expect that list equalsTo listOf("A", "C", "B", "D")
+        }
+    }
+
+
+    @Test
     fun report_contains_Array_of_float_primitive() {
         val a = floatArrayOf(42.0f)
         expectException<AssertionError> {

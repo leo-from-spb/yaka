@@ -71,6 +71,17 @@ class CollectionTest: AbstractUnitTest {
     }
 
 
+    @Test
+    fun `list is equal to array`() {
+        expect that myList4S equalsTo arrayOf("Einz", "Zwei", "Drei", "Vier")
+    }
+
+    @Test
+    fun `list is equal to list`() {
+        expect that myList4S equalsTo listOf("Einz", "Zwei", "Drei", "Vier")
+    }
+
+
 
     @Test
     fun `stream is null`() {

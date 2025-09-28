@@ -159,6 +159,22 @@ infix fun<E, C:Collection<E>> Subject<C>.allElementsMeet(predicate: NamedPredica
     }
 
 
+infix fun<E, L:List<E>> Subject<L>.equalsTo(expectedElements: Array<E>) =
+    this.equalsTo(expectedElements.asList())
+
+infix fun<E, L:List<E>> Subject<L>.equalsTo(expectedElements: List<E>) =
+    handleValue("is equal to the given list") {
+        if (it === expectedElements) return@handleValue Ok
+        val n = it.size
+        if (n != expectedElements.size) return@handleValue Fail("has $n elements when ${expectedElements.size} is expected")
+        for (i in 0 until n) {
+            val x: E = it[i]
+            val y: E = expectedElements[i]
+            if (x != y) return@handleValue Fail("element at position $i is different: $x != $y")
+        }
+        return@handleValue Ok
+    }
+
 
 
 @JvmName("izIterableEmptyOrNull")
